@@ -49,7 +49,7 @@ const navigation = {
       ],
     },
     {
-      name: 'Men',
+      name: 'Community',
       featured: [
         {
           name: 'New Arrivals',
@@ -215,7 +215,7 @@ export default function Home() {
                           className={({ selected }) =>
                             classNames(
                               selected ? 'text-indigo-600 border-indigo-600' : 'text-gray-900 border-transparent',
-                              'flex-1 whitespace-nowrap border-b-2 py-4 px-1 text-base font-medium'
+                              'flex-1 whitespace-nowrap border-b-2 py-4 px-1 text-base font-lg'
                             )
                           }
                         >
@@ -345,7 +345,7 @@ export default function Home() {
                       </a>
                     </div>
 
-                    <div className="hidden h-full lg:flex text-koromiko-main">
+                    <div className="hidden h-full lg:flex text-[white] hover:text-koromiko-main">
                       {/* Flyout menus */}
                       <Popover.Group className="inset-x-0 bottom-0 px-4">
                         <div className="flex h-full justify-center space-x-8">
@@ -424,7 +424,7 @@ export default function Home() {
                     </div>
 
                     {/* Mobile menu and search (lg-) */}
-                    <div className="flex flex-1 items-center lg:hidden text-koromiko-main">
+                    <div className="flex flex-1 items-center lg:hidden text-[white] hover:text-koromiko-main">
                       <button type="button" className="-ml-2 p-2 text-white" onClick={() => setMobileMenuOpen(true)}>
                         <span className="sr-only">Open menu</span>
                         <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -444,7 +444,7 @@ export default function Home() {
                     </a>
 
                     <div className="flex flex-1 items-center justify-end">
-                      <a href="#" className="hidden text-sm font-medium text-white lg:block">
+                      <a href="#" className="hidden text-sm font-medium text-white lg:block text-white">
                         Search
                       </a>
 
@@ -477,14 +477,14 @@ export default function Home() {
 
         <div className="relative mx-auto flex max-w-3xl flex-col items-center py-10 px-6 text-center h-[100vh] lg:px-0">
         <img
-                          className="h-16 w-auto"
+                          className="h-[200px] w-auto"
                           src={logo}
                           alt=""
                         />
                       
-          <h1 className="text-4xl font-bold tracking-tight text-white lg:text-4xl capitalize text-koromiko-main"> Explore <span className='text-[white]'>Everywhere, </span> Experience <span className='text-[white]'>Everything </span></h1>
-          <p className="mt-4 text-xl text-[white]">
-            High Quality Travel Gear For Your Neverending Adventure
+          <h1 className="text-4xl font-bold tracking-tight text-white lg:text-4xl capitalize text-koromiko-main"> Go <span className='text-[white]'>Everywhere, </span> See <span className='text-[white]'>Everything </span></h1>
+          <p className="mt-4 text-xl text-[white] capitalize">
+            Find your next remote job, buy travel Gear and find a community to support you in Your Neverending Adventure
           </p>
           <a
             href="#"
