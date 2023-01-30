@@ -9,33 +9,39 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import '/src/index.css'
-import bg from '/src/assets/min.mp4'
+import bg from '/src/assets/bg.mp4'
+import logo from '/src/assets/logo.webp'
+import telescope from '/src/assets/telescope.webp'
+import backpack from '/home/mackgrissom/code/MackGrissom/tailwind-ecommerce-frontend/macks-shop/src/assets/backpack.webp'
+import drone from '/src/assets/drones.webp'
+
+
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
   categories: [
     {
-      name: 'Women',
+      name: 'Our Products',
       featured: [
         {
-          name: 'New Arrivals',
+          name: 'Clothing',
           href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-01.jpg',
+          imageSrc: drone,
           imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
         },
         {
-          name: 'Basic Tees',
+          name: 'Backpacks',
           href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-02.jpg',
+          imageSrc: backpack,
           imageAlt: 'Close up of Basic Tee fall bundle with off-white, ochre, olive, and black tees.',
         },
         {
-          name: 'Accessories',
+          name: 'Digital Nomad Gear',
           href: '#',
           imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
           imageAlt: 'Model wearing minimalist watch with black wristband and white watch face.',
         },
         {
-          name: 'Carry',
+          name: 'Accessories',
           href: '#',
           imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-04.jpg',
           imageAlt: 'Model opening tan leather long wallet with credit card pockets and cash pouch.',
@@ -332,14 +338,14 @@ export default function Home() {
                       <a href="#">
                         <span className="sr-only">Your Company</span>
                         <img
-                          className="h-8 w-auto"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                          className="h-16 w-auto"
+                          src={logo}
                           alt=""
                         />
                       </a>
                     </div>
 
-                    <div className="hidden h-full lg:flex">
+                    <div className="hidden h-full lg:flex text-koromiko-main">
                       {/* Flyout menus */}
                       <Popover.Group className="inset-x-0 bottom-0 px-4">
                         <div className="flex h-full justify-center space-x-8">
@@ -348,7 +354,7 @@ export default function Home() {
                               {({ open }) => (
                                 <>
                                   <div className="relative flex">
-                                    <Popover.Button className="relative z-10 flex items-center justify-center text-sm font-medium text-white transition-colors duration-200 ease-out">
+                                    <Popover.Button className="relative z-10 flex items-center justify-center text-sm font-medium text-white transition-colors duration-200 ease-out text-main">
                                       {category.name}
                                       <span
                                         className={classNames(
@@ -418,7 +424,7 @@ export default function Home() {
                     </div>
 
                     {/* Mobile menu and search (lg-) */}
-                    <div className="flex flex-1 items-center lg:hidden">
+                    <div className="flex flex-1 items-center lg:hidden text-koromiko-main">
                       <button type="button" className="-ml-2 p-2 text-white" onClick={() => setMobileMenuOpen(true)}>
                         <span className="sr-only">Open menu</span>
                         <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -434,7 +440,7 @@ export default function Home() {
                     {/* Logo (lg-) */}
                     <a href="#" className="lg:hidden">
                       <span className="sr-only">Your Company</span>
-                      <img src="https://tailwindui.com/img/logos/mark.svg?color=white" alt="" className="h-8 w-auto" />
+                      <img src={logo} alt="" className="h-8 w-auto" />
                     </a>
 
                     <div className="flex flex-1 items-center justify-end">
@@ -469,11 +475,16 @@ export default function Home() {
           </nav>
         </header>
 
-        <div className="relative mx-auto flex max-w-3xl flex-col items-center py-32 px-6 text-center sm:py-64 lg:px-0">
-          <h1 className="text-4xl font-bold tracking-tight text-white lg:text-6xl">New arrivals are here</h1>
-          <p className="mt-4 text-xl text-white">
-            The new arrivals have, well, newly arrived. Check out the latest options from our summer small-batch release
-            while they're still in stock.
+        <div className="relative mx-auto flex max-w-3xl flex-col items-center py-10 px-6 text-center h-[100vh] lg:px-0">
+        <img
+                          className="h-16 w-auto"
+                          src={logo}
+                          alt=""
+                        />
+                      
+          <h1 className="text-4xl font-bold tracking-tight text-white lg:text-4xl capitalize text-koromiko-main"> Explore <span className='text-[white]'>Everywhere, </span> Experience <span className='text-[white]'>Everything </span></h1>
+          <p className="mt-4 text-xl text-[white]">
+            High Quality Travel Gear For Your Neverending Adventure
           </p>
           <a
             href="#"

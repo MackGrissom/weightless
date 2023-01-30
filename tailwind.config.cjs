@@ -3,16 +3,21 @@ module.exports = {
   theme: {
     colors: {
       
-        crail1: '#fcf5f4',
-        crail2: '#f9eae7',
-        crail3: '#f5d8d3',
-        crail4: '#edbcb4',
-        crail5: '#e19588',
-        crail6: '#d27161',
-        caril7: '#bf5b4a',
-        crail8: '#9e4637',
-        crail9: '#843c30',
-        crail10: '#6e372e',
+      'koromiko': {
+        '50': '#fff9ed',
+        '100': '#fff1d4',
+        '200': '#ffdfa9',
+        '300': '#ffbd59',
+        '400': '#fea439',
+        '500': '#fc8713',
+        '600': '#ed6c09',
+        '700': '#c55109',
+        '800': '#9c4010',
+        '900': '#7e3610',
+        'main': '#fea439'
+    },
+    
+    
     },
     
     
