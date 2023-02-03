@@ -11,9 +11,16 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import '/src/index.css'
 import bg from '/src/assets/bg.mp4'
 import logo from '/src/assets/logo.webp'
-import telescope from '/src/assets/telescope.webp'
-import backpack from '/home/mackgrissom/code/MackGrissom/tailwind-ecommerce-frontend/macks-shop/src/assets/backpack.webp'
-import drone from '/src/assets/drones.webp'
+import accessories from '/src/assets/acessories.webp'
+import backpack from '/src/assets/backpack.webp'
+import digitalnomad from '/src/assets/digitalnomad.webp'
+import clothing from '/src/assets/clothing.webp'
+
+
+import community from '/src/assets/communitydiscussions.webp'
+import find from '/src/assets/findjobs.webp'
+import post from '/src/assets/postjobs.webp'
+
 
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
@@ -25,7 +32,7 @@ const navigation = {
         {
           name: 'Clothing',
           href: '#',
-          imageSrc: drone,
+          imageSrc: clothing,
           imageAlt: 'Models sitting back to back, wearing Basic Tee in black and bone.',
         },
         {
@@ -37,13 +44,13 @@ const navigation = {
         {
           name: 'Digital Nomad Gear',
           href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-03.jpg',
+          imageSrc: digitalnomad,
           imageAlt: 'Model wearing minimalist watch with black wristband and white watch face.',
         },
         {
           name: 'Accessories',
           href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-category-04.jpg',
+          imageSrc: accessories,
           imageAlt: 'Model opening tan leather long wallet with credit card pockets and cash pouch.',
         },
       ],
@@ -52,41 +59,36 @@ const navigation = {
       name: 'Community',
       featured: [
         {
-          name: 'New Arrivals',
+          name: 'Find Remote Jobs',
           href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-01.jpg',
+          imageSrc: find,
           imageAlt: 'Hats and sweaters on wood shelves next to various colors of t-shirts on hangers.',
         },
         {
-          name: 'Basic Tees',
+          name: 'Post Remote Jobs',
           href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-02.jpg',
+          imageSrc: post,
           imageAlt: 'Model wearing light heather gray t-shirt.',
         },
         {
-          name: 'Accessories',
+          name: 'Community Discussions',
           href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-03.jpg',
+          imageSrc: community,
           imageAlt:
             'Grey 6-panel baseball hat with black brim, black mountain graphic on front, and light heather gray body.',
         },
-        {
-          name: 'Carry',
-          href: '#',
-          imageSrc: 'https://tailwindui.com/img/ecommerce-images/mega-menu-01-men-category-04.jpg',
-          imageAlt: 'Model putting folded cash into slim card holder olive leather wallet with hand stitching.',
-        },
+        
       ],
     },
   ],
   pages: [
-    { name: 'Company', href: '#' },
-    { name: 'Stores', href: '#' },
+    { name: 'Remote Jobs', href: '#' },
+    { name: 'About Us', href: '#' },
   ],
 }
 const categories = [
   {
-    name: 'New Arrivals',
+    name: 'Backpacks',
     href: '#',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-01.jpg',
   },
@@ -105,7 +107,7 @@ const categories = [
     href: '#',
     imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-05.jpg',
   },
-  { name: 'Sale', href: '#', imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-03.jpg' },
+  
 ]
 const collections = [
   {
@@ -345,7 +347,7 @@ export default function Home() {
                       </a>
                     </div>
 
-                    <div className="hidden h-full lg:flex text-[white] hover:text-koromiko-main">
+                    <div className="hidden h-full lg:flex text-[white] h">
                       {/* Flyout menus */}
                       <Popover.Group className="inset-x-0 bottom-0 px-4">
                         <div className="flex h-full justify-center space-x-8">
@@ -444,25 +446,18 @@ export default function Home() {
                     </a>
 
                     <div className="flex flex-1 items-center justify-end">
-                      <a href="#" className="hidden text-sm font-medium text-white lg:block text-white">
-                        Search
-                      </a>
+                    
 
                       <div className="flex items-center lg:ml-8">
                         {/* Help */}
-                        <a href="#" className="p-2 text-white lg:hidden">
-                          <span className="sr-only">Help</span>
-                          <QuestionMarkCircleIcon className="h-6 w-6" aria-hidden="true" />
-                        </a>
-                        <a href="#" className="hidden text-sm font-medium text-white lg:block">
-                          Help
-                        </a>
+                       
+                       
 
                         {/* Cart */}
                         <div className="ml-4 flow-root lg:ml-8">
                           <a href="#" className="group -m-2 flex items-center p-2">
                             <ShoppingBagIcon className="h-6 w-6 flex-shrink-0 text-white" aria-hidden="true" />
-                            <span className="ml-2 text-sm font-medium text-white">0</span>
+                            <span className="ml-2 text-sm font-medium text-white">2</span>
                             <span className="sr-only">items in cart, view bag</span>
                           </a>
                         </div>
@@ -483,15 +478,22 @@ export default function Home() {
                         />
                       
           <h1 className="text-4xl font-bold tracking-tight text-white lg:text-4xl capitalize text-koromiko-main"> Go <span className='text-[white]'>Everywhere, </span> See <span className='text-[white]'>Everything </span></h1>
-          <p className="mt-4 text-xl text-[white] capitalize">
-            Find your next remote job, buy travel Gear and find a community to support you in Your Neverending Adventure
+          <p className="mt-4 text-l text-[white] capitalize w-[105%]">
+            A gathering place for digital nomads:  Jobs, Gear,  travel guides & A Like-minded Community
           </p>
+          <div className="flex justify-between align-bottom gap-5 pt-20">
           <a
             href="#"
-            className="mt-8 inline-block rounded-md border border-transparent bg-white py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100"
-          >
-            Shop New Arrivals
+            className="mt-8 inline-block rounded-md border  bg-white py-3 px-8 text-base font-medium bg-koromiko-main text-[white] hover:bg-[white] hover:text-[black] "> 
+            Find Remote Jobs
           </a>
+          <a
+            href="#"
+            className="mt-8 inline-block rounded-md bg-white py-3 px-8 text-base font-medium bg-[white] text-[black] hover:bg-koromiko-main border border-[black]"
+          >
+            Visit Shop
+          </a>
+          </div>
         </div>
       </div>
 
