@@ -23,6 +23,8 @@ import digitalnomad2 from '/src/assets/digitalnomad2.webp'
 import backpacks2 from '/src/assets/backpacks2.webp'
 import accessories2 from '/src/assets/acessories2.webp'
 
+
+
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
   categories: [
