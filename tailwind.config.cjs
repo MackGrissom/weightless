@@ -16,6 +16,7 @@ module.exports = {
         '900': '#7e3610',
         'main': '#fea439'
     },
+  
     
     
     },

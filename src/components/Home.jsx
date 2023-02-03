@@ -22,8 +22,8 @@ import clothing2 from '/src/assets/clothing2.webp'
 import digitalnomad2 from '/src/assets/digitalnomad2.webp'
 import backpacks2 from '/src/assets/backpacks2.webp'
 import accessories2 from '/src/assets/acessories2.webp'
-
-
+import dn from '/src/assets/dn.webp'
+import funnydn from '/src/assets/funnydn.webp'
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
@@ -100,7 +100,7 @@ const categories = [
     imageSrc: backpacks2,
   },
   {
-    name: 'Digital Nomad Gear',
+    name: 'DN Gear',
     href: '#',
     imageSrc: digitalnomad2,
   },
@@ -358,7 +358,7 @@ export default function Home() {
                               {({ open }) => (
                                 <>
                                   <div className="relative flex">
-                                    <Popover.Button className="relative z-10 flex items-center justify-center text-sm font-medium text-white transition-colors duration-200 ease-out text-main">
+                                    <Popover.Button className="relative z-10 flex items-center justify-center text-sm font-medium text-[white] transition-colors duration-200 ease-out text-main">
                                       {category.name}
                                       <span
                                         className={classNames(
@@ -418,7 +418,7 @@ export default function Home() {
                             <a
                               key={page.name}
                               href={page.href}
-                              className="flex items-center text-sm font-medium text-white"
+                              className="flex items-center text-sm font-medium text-[white]"
                             >
                               {page.name}
                             </a>
@@ -429,13 +429,13 @@ export default function Home() {
 
                     {/* Mobile menu and search (lg-) */}
                     <div className="flex flex-1 items-center lg:hidden text-[white] hover:text-koromiko-main">
-                      <button type="button" className="-ml-2 p-2 text-white" onClick={() => setMobileMenuOpen(true)}>
+                      <button type="button" className="-ml-2 p-2 text-[white]" onClick={() => setMobileMenuOpen(true)}>
                         <span className="sr-only">Open menu</span>
                         <Bars3Icon className="h-6 w-6" aria-hidden="true" />
                       </button>
 
                       {/* Search */}
-                      <a href="#" className="ml-2 p-2 text-white">
+                      <a href="#" className="ml-2 p-2 text-[white]">
                         <span className="sr-only">Search</span>
                         <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
                       </a>
@@ -458,8 +458,8 @@ export default function Home() {
                         {/* Cart */}
                         <div className="ml-4 flow-root lg:ml-8">
                           <a href="#" className="group -m-2 flex items-center p-2">
-                            <ShoppingBagIcon className="h-6 w-6 flex-shrink-0 text-white" aria-hidden="true" />
-                            <span className="ml-2 text-sm font-medium text-white">2</span>
+                            <ShoppingBagIcon className="h-6 w-6 flex-shrink-0 text-[white]" aria-hidden="true" />
+                            <span className="ml-2 text-sm font-medium text-[white]">2</span>
                             <span className="sr-only">items in cart, view bag</span>
                           </a>
                         </div>
@@ -479,7 +479,7 @@ export default function Home() {
                           alt=""
                         />
                       
-          <h1 className="text-4xl font-bold tracking-tight text-white lg:text-4xl capitalize text-koromiko-main"> Go <span className='text-[white]'>Everywhere, </span> See <span className='text-[white]'>Everything </span></h1>
+          <h1 className="text-4xl font-bold tracking-tight text-[white] lg:text-4xl capitalize text-koromiko-main"> Go <span className='text-[white]'>Everywhere, </span> See <span className='text-[white]'>Everything </span></h1>
           <p className="mt-4 text-l text-[white] capitalize w-[105%]">
             A gathering place for digital nomads:  Jobs, Gear,  travel guides & A Like-minded Community
           </p>
@@ -515,21 +515,21 @@ export default function Home() {
           <div className="mt-4 flow-root">
             <div className="-my-2">
               <div className="relative box-content h-80 overflow-x-auto py-2 xl:overflow-visible">
-                <div className="min-w-screen-xl absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0">
+                <div className="min-w-screen-xl absolute flex space-x-8 px-4 sm:px-6 lg:px-8 xl:relative xl:grid xl:grid-cols-5 xl:gap-x-8 xl:space-x-0 xl:px-0 ">
                   {categories.map((category) => (
                     <a
                       key={category.name}
                       href={category.href}
-                      className="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
+                      className="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto text-koromiko-main  p-4"
                     >
-                      <span aria-hidden="true" className="absolute inset-0">
+                      <span aria-hidden="true" className="absolute inset-0 mb-14">
                         <img src={category.imageSrc} alt="" className="h-full w-full object-cover object-center" />
                       </span>
                       <span
                         aria-hidden="true"
                         className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-gray-800 opacity-50"
                       />
-                      <span className="relative mt-auto text-center text-xl font-bold text-white">{category.name}</span>
+                      <span className="relative mt-auto text-center text-xl font-bold ">{category.name}</span>
                     </a>
                   ))}
                 </div>
@@ -553,27 +553,26 @@ export default function Home() {
           <div className="relative overflow-hidden rounded-lg">
             <div className="absolute inset-0">
               <img
-                src="https://tailwindui.com/img/ecommerce-images/home-page-01-feature-section-01.jpg"
+                src={funnydn}
                 alt=""
-                className="h-full w-full object-cover object-center"
+                className="h-full w-full object-cover object-center opacity-80 bg-[black]"
               />
             </div>
             <div className="relative bg-gray-900 bg-opacity-75 py-32 px-6 sm:py-40 sm:px-12 lg:px-16">
               <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
-                <h2 id="social-impact-heading" className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                  <span className="block sm:inline">Level up</span>
-                  <span className="block sm:inline">your desk</span>
+                <h2 id="social-impact-heading" className="text-3xl font-bold tracking-tight sm:text-4xl text-koromiko-main">
+                  <span className="block sm:inline">Find Remote Jobs,</span> &nbsp;
+                  <span className="block sm:inline">Hire Remote Workers</span>
                 </h2>
-                <p className="mt-3 text-xl text-white">
-                  Make your desk beautiful and organized. Post a picture to social media and watch it get more likes
-                  than life-changing announcements. Reflect on the shallow nature of existence. At least you have a
-                  really nice desk setup.
+                <p className="mt-3 text-xl text-[white] capitalize font-bold">
+                  Leverage our community. Find your dream job, find you dream employee. 
                 </p>
+              
                 <a
                   href="#"
-                  className="mt-8 block w-full rounded-md border border-transparent bg-white py-3 px-8 text-base font-medium text-gray-900 hover:bg-gray-100 sm:w-auto"
+                  className="mt-8 block w-full rounded-md border border-transparent bg-white py-3 px-8   text-koromiko-main font-medium text-gray-900 hover:bg-gray-100 sm:w-auto"
                 >
-                  Shop Workspace
+                  Visit Job Center
                 </a>
               </div>
             </div>
@@ -624,10 +623,10 @@ export default function Home() {
             </div>
             <div className="relative bg-gray-900 bg-opacity-75 py-32 px-6 sm:py-40 sm:px-12 lg:px-16">
               <div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
-                <h2 id="comfort-heading" className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                <h2 id="comfort-heading" className="text-3xl font-bold tracking-tight text-[white] sm:text-4xl">
                   Simple productivity
                 </h2>
-                <p className="mt-3 text-xl text-white">
+                <p className="mt-3 text-xl text-[white]">
                   Endless tasks, limited hours, a single piece of paper. Not really a haiku, but we're doing our best
                   here. No kanban boards, burndown charts, or tangled flowcharts with our Focus system. Just the
                   undeniable urge to fill empty circles.
@@ -653,11 +652,11 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-8 xl:col-span-2">
               <div className="space-y-12 md:grid md:grid-cols-2 md:gap-8 md:space-y-0">
                 <div>
-                  <h3 className="text-sm font-medium text-white">Shop</h3>
+                  <h3 className="text-sm font-medium  text-koromiko-main">Shop</h3>
                   <ul role="list" className="mt-6 space-y-6">
                     {footerNavigation.shop.map((item) => (
                       <li key={item.name} className="text-sm">
-                        <a href={item.href} className="text-gray-300 hover:text-white">
+                        <a href={item.href} className="text-gray-300 hover:text-[white]">
                           {item.name}
                         </a>
                       </li>
@@ -665,11 +664,11 @@ export default function Home() {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-white">Company</h3>
+                  <h3 className="text-sm font-medium  text-koromiko-main">Company</h3>
                   <ul role="list" className="mt-6 space-y-6">
                     {footerNavigation.company.map((item) => (
                       <li key={item.name} className="text-sm">
-                        <a href={item.href} className="text-gray-300 hover:text-white">
+                        <a href={item.href} className="text-gray-300 hover:text-[white]">
                           {item.name}
                         </a>
                       </li>
@@ -679,11 +678,11 @@ export default function Home() {
               </div>
               <div className="space-y-12 md:grid md:grid-cols-2 md:gap-8 md:space-y-0">
                 <div>
-                  <h3 className="text-sm font-medium text-white">Account</h3>
+                  <h3 className="text-sm font-medium  text-koromiko-main">Account</h3>
                   <ul role="list" className="mt-6 space-y-6">
                     {footerNavigation.account.map((item) => (
                       <li key={item.name} className="text-sm">
-                        <a href={item.href} className="text-gray-300 hover:text-white">
+                        <a href={item.href} className="text-gray-300 hover:text-[white]">
                           {item.name}
                         </a>
                       </li>
@@ -691,11 +690,11 @@ export default function Home() {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-white">Connect</h3>
+                  <h3 className="text-sm font-medium  text-koromiko-main">Connect</h3>
                   <ul role="list" className="mt-6 space-y-6">
                     {footerNavigation.connect.map((item) => (
                       <li key={item.name} className="text-sm">
-                        <a href={item.href} className="text-gray-300 hover:text-white">
+                        <a href={item.href} className="text-gray-300 hover:text-[white]">
                           {item.name}
                         </a>
                       </li>
@@ -705,7 +704,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-12 md:mt-16 xl:mt-0">
-              <h3 className="text-sm font-medium text-white">Sign up for our newsletter</h3>
+              <h3 className="text-sm font-medium  text-koromiko-main">Sign up for our newsletter</h3>
               <p className="mt-6 text-sm text-gray-300">The latest deals and savings, sent to your inbox weekly.</p>
               <form className="mt-2 flex sm:max-w-md">
                 <label htmlFor="email-address" className="sr-only">
@@ -721,7 +720,7 @@ export default function Home() {
                 <div className="ml-4 flex-shrink-0">
                   <button
                     type="submit"
-                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                    className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-base font-medium  text-koromiko-main"
                   >
                     Sign up
                   </button>
