@@ -15,13 +15,13 @@ import accessories from '/src/assets/acessories.webp'
 import backpack from '/src/assets/backpack.webp'
 import digitalnomad from '/src/assets/digitalnomad.webp'
 import clothing from '/src/assets/clothing.webp'
-
-
 import community from '/src/assets/communitydiscussions.webp'
 import find from '/src/assets/findjobs.webp'
 import post from '/src/assets/postjobs.webp'
-
-
+import clothing2 from '/src/assets/clothing2.webp'
+import digitalnomad2 from '/src/assets/digitalnomad2.webp'
+import backpacks2 from '/src/assets/backpacks2.webp'
+import accessories2 from '/src/assets/acessories2.webp'
 
 const currencies = ['CAD', 'USD', 'AUD', 'EUR', 'GBP']
 const navigation = {
@@ -88,24 +88,24 @@ const navigation = {
 }
 const categories = [
   {
+    name: 'Clothing',
+    href: '#',
+    imageSrc: clothing2,
+  },
+  {
     name: 'Backpacks',
     href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-01.jpg',
+    imageSrc: backpacks2,
   },
   {
-    name: 'Productivity',
+    name: 'Digital Nomad Gear',
     href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-02.jpg',
-  },
-  {
-    name: 'Workspace',
-    href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-04.jpg',
+    imageSrc: digitalnomad2,
   },
   {
     name: 'Accessories',
     href: '#',
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/home-page-01-category-05.jpg',
+    imageSrc: accessories2,
   },
   
 ]
