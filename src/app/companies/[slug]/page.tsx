@@ -19,11 +19,26 @@ export async function generateMetadata({
   const company = await getCompanyBySlug(params.slug);
   if (!company) return { title: "Company Not Found" };
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://weightless.jobs";
+  const description =
+    company.description?.slice(0, 155) ||
+    `View open remote positions at ${company.name}. Browse jobs, tech stack, and company info on Weightless.`;
+
   return {
-    title: company.name,
-    description:
-      company.description?.slice(0, 160) ||
-      `View open remote positions at ${company.name}`,
+    title: `${company.name} — Remote Jobs & Company Profile`,
+    description,
+    alternates: {
+      canonical: `${siteUrl}/companies/${company.slug}`,
+    },
+    openGraph: {
+      title: `${company.name} — Remote Jobs | Weightless`,
+      description,
+      url: `${siteUrl}/companies/${company.slug}`,
+      siteName: "Weightless",
+      ...(company.logo_url && {
+        images: [{ url: company.logo_url, alt: company.name }],
+      }),
+    },
   };
 }
 

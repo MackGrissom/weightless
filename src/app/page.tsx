@@ -4,6 +4,10 @@ import { CategoriesGrid } from "@/components/landing/categories-grid";
 import { ValueProps } from "@/components/landing/value-props";
 import { StatsBar } from "@/components/landing/stats-bar";
 import { NewsletterSignup } from "@/components/landing/newsletter-signup";
+import {
+  WebsiteStructuredData,
+  OrganizationStructuredData,
+} from "@/components/shared/structured-data";
 import { getFeaturedJobs, getCategories, getStats } from "@/lib/supabase/queries";
 
 export const revalidate = 3600; // ISR: 1 hour
@@ -15,8 +19,12 @@ export default async function HomePage() {
     getStats(),
   ]);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://weightless.jobs";
+
   return (
     <>
+      <WebsiteStructuredData siteUrl={siteUrl} />
+      <OrganizationStructuredData siteUrl={siteUrl} />
       <Hero />
       <StatsBar
         jobCount={stats.jobCount}

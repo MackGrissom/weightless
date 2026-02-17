@@ -60,14 +60,14 @@ TECH_KEYWORDS = [
 ]
 
 CATEGORY_MAP = {
-    "engineering": ["engineer", "developer", "devops", "sre", "architect", "programmer", "cto"],
-    "design": ["designer", "ux", "ui", "creative", "illustrator"],
-    "marketing": ["marketing", "seo", "growth", "social media", "brand"],
-    "product": ["product manager", "product owner", "product lead"],
-    "support": ["support", "customer success", "account manager", "customer service"],
-    "writing": ["writer", "content", "editor", "copywriter", "technical writer"],
-    "data": ["data", "analytics", "machine learning", "ml", "ai engineer", "data scientist"],
-    "education": ["teacher", "tutor", "instructor", "education", "training"],
+    "engineering": ["engineer", "developer", "devops", "sre", "architect", "programmer", "cto", "sysadmin", "qa "],
+    "design": ["designer", "ux ", "ui ", "creative director", "illustrator", "design lead", "art director"],
+    "marketing": ["marketing", " seo", "growth", "social media", "brand manager", "demand gen", "paid media"],
+    "product": ["product manager", "product owner", "product lead", "product director", "program manager"],
+    "support": ["customer support", "customer success", "account manager", "customer service", "helpdesk", "help desk"],
+    "writing": ["writer", "copywriter", "technical writer", "content strategist", "content manager", "editor"],
+    "data": ["data engineer", "data scientist", "data analyst", "machine learning", "ml engineer", "ai engineer", "analytics engineer", "bi analyst", "business intelligence"],
+    "education": ["teacher", "tutor", "instructor", "professor", "curriculum", "teaching", "academic"],
 }
 
 EXPERIENCE_MAP = {
@@ -110,7 +110,10 @@ def extract_tech_stack(text: str) -> list[str]:
 
 def classify_category(title: str) -> str:
     title_lower = title.lower()
-    for category, keywords in CATEGORY_MAP.items():
+    # Priority order matters — check more specific categories first
+    priority_order = ["data", "product", "education", "writing", "support", "design", "marketing", "engineering"]
+    for category in priority_order:
+        keywords = CATEGORY_MAP[category]
         for keyword in keywords:
             if keyword in title_lower:
                 return category

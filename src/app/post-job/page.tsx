@@ -2,9 +2,15 @@ import type { Metadata } from "next";
 import { PostJobForm } from "./post-job-form";
 
 export const metadata: Metadata = {
-  title: "Post a Job",
+  title: "Post a Remote Job — Hire Digital Nomads",
   description:
-    "Reach thousands of digital nomads and remote workers. Post your remote job listing on Weightless.",
+    "Post your remote job listing on Weightless and reach thousands of digital nomads and remote workers. Standard listings from $99. Featured listings from $299.",
+  openGraph: {
+    title: "Post a Remote Job — Hire Digital Nomads | Weightless",
+    description:
+      "Reach thousands of skilled remote workers actively looking for their next opportunity. Post your job in minutes.",
+    siteName: "Weightless",
+  },
 };
 
 export default function PostJobPage() {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Building2 } from "lucide-react";
+import { Building2 } from "lucide-react";
 import { JobDetailHeader } from "@/components/jobs/job-detail-header";
 import { JobDetailBody } from "@/components/jobs/job-detail-body";
 import { JobStructuredData } from "@/components/jobs/job-structured-data";
@@ -10,6 +10,7 @@ import { SalaryDisplay } from "@/components/jobs/salary-display";
 import { TimezoneBadge } from "@/components/jobs/timezone-badge";
 import { JobCard } from "@/components/jobs/job-card";
 import { NomadToolkit } from "@/components/jobs/nomad-toolkit";
+import { BreadcrumbStructuredData } from "@/components/shared/structured-data";
 import { Card } from "@/components/ui/card";
 import {
   getJobBySlug,
@@ -29,13 +30,30 @@ export async function generateMetadata({
   const job = await getJobBySlug(params.slug);
   if (!job) return { title: "Job Not Found" };
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://weightless.jobs";
+  const salaryPart =
+    job.salary_min && job.salary_max
+      ? ` | $${Math.round(job.salary_min / 1000)}k-$${Math.round(job.salary_max / 1000)}k`
+      : "";
+  const description = `${job.title} at ${job.company?.name}${salaryPart} — Remote. Apply now on Weightless, the job board for digital nomads.`;
+
   return {
     title: `${job.title} at ${job.company?.name}`,
-    description: job.description_plain?.slice(0, 160) || job.title,
+    description,
+    alternates: {
+      canonical: `${siteUrl}/jobs/${job.slug}`,
+    },
     openGraph: {
-      title: `${job.title} at ${job.company?.name}`,
-      description: job.description_plain?.slice(0, 160) || job.title,
+      title: `${job.title} at ${job.company?.name}${salaryPart}`,
+      description,
       type: "article",
+      url: `${siteUrl}/jobs/${job.slug}`,
+      siteName: "Weightless",
+    },
+    twitter: {
+      card: "summary",
+      title: `${job.title} at ${job.company?.name}`,
+      description,
     },
   };
 }
@@ -51,18 +69,27 @@ export default async function JobPage({ params }: JobPageProps) {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://weightless.jobs";
 
+  const breadcrumbs = [
+    { name: "Home", url: "/" },
+    { name: "Jobs", url: "/jobs" },
+    { name: job.title, url: `/jobs/${job.slug}` },
+  ];
+
   return (
     <>
       <JobStructuredData job={job} siteUrl={siteUrl} />
+      <BreadcrumbStructuredData items={breadcrumbs} siteUrl={siteUrl} />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <Link
-          href="/jobs"
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to jobs
-        </Link>
+        <nav aria-label="Breadcrumb" className="mb-6">
+          <ol className="flex items-center gap-1 text-sm text-muted-foreground">
+            <li><Link href="/" className="hover:text-foreground transition-colors">Home</Link></li>
+            <li>/</li>
+            <li><Link href="/jobs" className="hover:text-foreground transition-colors">Jobs</Link></li>
+            <li>/</li>
+            <li className="text-foreground truncate max-w-[200px]">{job.title}</li>
+          </ol>
+        </nav>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
           <div className="space-y-8">

@@ -6,9 +6,15 @@ import { getCompanies } from "@/lib/supabase/queries";
 export const revalidate = 3600; // ISR: 1 hour
 
 export const metadata: Metadata = {
-  title: "Companies",
+  title: "Remote Companies Hiring Digital Nomads",
   description:
-    "Discover companies hiring remote workers and digital nomads worldwide.",
+    "Discover companies hiring remote workers and digital nomads worldwide. Browse company profiles, tech stacks, and open remote positions.",
+  openGraph: {
+    title: "Remote Companies Hiring Digital Nomads | Weightless",
+    description:
+      "Discover companies hiring remote workers and digital nomads worldwide.",
+    siteName: "Weightless",
+  },
 };
 
 export default async function CompaniesPage() {

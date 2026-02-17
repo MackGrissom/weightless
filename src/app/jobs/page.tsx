@@ -8,11 +8,73 @@ import { JobListSkeleton } from "@/components/shared/loading-skeleton";
 import { searchJobs, getCategories } from "@/lib/supabase/queries";
 import type { JobType, ExperienceLevel } from "@/types/database";
 
-export const metadata: Metadata = {
-  title: "Remote Jobs",
-  description:
-    "Browse hundreds of remote jobs for digital nomads. Filter by timezone, visa sponsorship, salary, and more.",
+const categoryMeta: Record<string, { title: string; description: string }> = {
+  engineering: {
+    title: "Remote Engineering Jobs",
+    description: "Browse remote software engineering, developer, and DevOps jobs for digital nomads. Filter by timezone, salary, visa sponsorship, and tech stack.",
+  },
+  design: {
+    title: "Remote Design Jobs",
+    description: "Find remote UX, UI, and product design jobs for digital nomads. Work from anywhere with timezone-friendly roles.",
+  },
+  marketing: {
+    title: "Remote Marketing Jobs",
+    description: "Discover remote marketing, SEO, and growth jobs for digital nomads. Flexible roles with location independence.",
+  },
+  product: {
+    title: "Remote Product Jobs",
+    description: "Browse remote product manager and product owner roles for digital nomads. Work from anywhere in the world.",
+  },
+  data: {
+    title: "Remote Data & Analytics Jobs",
+    description: "Find remote data science, data engineering, and analytics jobs for digital nomads. ML, AI, and BI roles included.",
+  },
+  support: {
+    title: "Remote Customer Support Jobs",
+    description: "Browse remote customer success and support roles for digital nomads. Timezone-flexible positions available.",
+  },
+  writing: {
+    title: "Remote Writing & Content Jobs",
+    description: "Find remote content writing, copywriting, and editorial jobs for digital nomads. Create from anywhere.",
+  },
+  education: {
+    title: "Remote Education Jobs",
+    description: "Discover remote teaching, tutoring, and education roles for digital nomads. Teach from anywhere in the world.",
+  },
 };
+
+export async function generateMetadata({ searchParams }: JobsPageProps): Promise<Metadata> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://weightless.jobs";
+  const cat = searchParams.category;
+
+  if (cat && categoryMeta[cat]) {
+    return {
+      title: categoryMeta[cat].title,
+      description: categoryMeta[cat].description,
+      alternates: { canonical: `${siteUrl}/jobs?category=${cat}` },
+      openGraph: {
+        title: categoryMeta[cat].title,
+        description: categoryMeta[cat].description,
+        url: `${siteUrl}/jobs?category=${cat}`,
+        siteName: "Weightless",
+      },
+    };
+  }
+
+  return {
+    title: "Remote Jobs for Digital Nomads",
+    description:
+      "Browse 1,000+ remote jobs for digital nomads. Filter by category, timezone, visa sponsorship, salary, and tech stack. Updated every 6 hours.",
+    alternates: { canonical: `${siteUrl}/jobs` },
+    openGraph: {
+      title: "Remote Jobs for Digital Nomads | Weightless",
+      description:
+        "Browse 1,000+ remote jobs with cost-of-living context, visa info, and timezone filtering. Free for job seekers.",
+      url: `${siteUrl}/jobs`,
+      siteName: "Weightless",
+    },
+  };
+}
 
 interface JobsPageProps {
   searchParams: {
