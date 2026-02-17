@@ -181,17 +181,53 @@ def generate_source_id(source: str, job_id: str, title: str, company: str) -> st
     return hashlib.md5(raw.encode()).hexdigest()[:16]
 
 
+JOB_BOARD_DOMAINS = {"indeed.com", "linkedin.com", "glassdoor.com", "ziprecruiter.com"}
+
+
+def is_job_board_domain(domain: str) -> bool:
+    """Check if a domain belongs to a job board rather than a company."""
+    if domain in JOB_BOARD_DOMAINS:
+        return True
+    for jb in JOB_BOARD_DOMAINS:
+        if domain.endswith(f".{jb}"):
+            return True
+    return False
+
+
+def derive_logo_url(website: str, name: str) -> str | None:
+    """Derive a company logo URL from website domain using Clearbit Logo CDN."""
+    domain = ""
+    if website:
+        domain = re.sub(r"^https?://", "", website).split("/")[0].strip().lower()
+        domain = re.sub(r"^www\.", "", domain)
+
+    # Skip job board domains
+    if domain and not is_job_board_domain(domain):
+        return f"https://logo.clearbit.com/{domain}"
+
+    # Guess from company name (only for short clean names)
+    clean_name = re.sub(r"[^\w]", "", name.lower())
+    if clean_name and 3 <= len(clean_name) <= 20 and " " not in name.strip():
+        return f"https://logo.clearbit.com/{clean_name}.com"
+
+    return None
+
+
 def get_or_create_company(name: str, logo_url: str = "", website: str = "", description: str = "", size: str = "") -> str:
     """Get existing company or create new one, return company ID."""
     slug = slugify(name)
     if not slug:
         slug = "unknown"
 
-    result = supabase.table("companies").select("id").eq("slug", slug).execute()
+    # Auto-derive logo if not provided
+    if not logo_url:
+        logo_url = derive_logo_url(website, name) or ""
+
+    result = supabase.table("companies").select("id, logo_url").eq("slug", slug).execute()
     if result.data:
         # Update with new info if available
         updates = {}
-        if logo_url:
+        if logo_url and not result.data[0].get("logo_url"):
             updates["logo_url"] = logo_url
         if website:
             updates["website"] = website
@@ -314,7 +350,7 @@ def scrape_and_load():
                         "title": title,
                         "slug": slug,
                         "company_id": company_id,
-                        "description": description[:50000] if description else title,
+                        "description": description[:50000] if description else "",
                         "description_plain": description_plain[:5000] if description_plain else None,
                         "category_id": category_id,
                         "job_type": "full_time",
