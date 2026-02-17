@@ -1,4 +1,5 @@
 import { Tag } from "@/components/shared/tag";
+import { ApplyGate } from "@/components/jobs/apply-gate";
 import type { JobWithCompany } from "@/types/database";
 
 interface JobDetailBodyProps {
@@ -38,14 +39,12 @@ export function JobDetailBody({ job }: JobDetailBodyProps) {
               Full description not available. Apply directly to learn more about this role.
             </p>
             {job.apply_url && (
-              <a
-                href={job.apply_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90"
-              >
-                View on Source
-              </a>
+              <ApplyGate
+                jobId={job.id}
+                applyUrl={job.apply_url}
+                jobTitle={job.title}
+                companyName={job.company?.name || "this company"}
+              />
             )}
           </div>
         )}
