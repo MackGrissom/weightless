@@ -5,6 +5,7 @@ import { JobFilters } from "@/components/jobs/job-filters";
 import { JobList } from "@/components/jobs/job-list";
 import { Pagination } from "@/components/shared/pagination";
 import { JobListSkeleton } from "@/components/shared/loading-skeleton";
+import { JobAlertSignup } from "@/components/jobs/job-alert-signup";
 import { searchJobs, getCategories } from "@/lib/supabase/queries";
 import type { JobType, ExperienceLevel } from "@/types/database";
 
@@ -143,10 +144,13 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[260px_1fr]">
         <aside className="hidden lg:block">
-          <div className="sticky top-24 rounded-xl border border-border bg-card p-4">
-            <Suspense>
-              <JobFilters categories={categories} />
-            </Suspense>
+          <div className="sticky top-24 space-y-6">
+            <div className="rounded-xl border border-border bg-card p-4">
+              <Suspense>
+                <JobFilters categories={categories} />
+              </Suspense>
+            </div>
+            <JobAlertSignup />
           </div>
         </aside>
 
@@ -162,6 +166,10 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
               </Suspense>
             </div>
           )}
+
+          <div className="mt-8 lg:hidden">
+            <JobAlertSignup />
+          </div>
         </div>
       </div>
     </div>

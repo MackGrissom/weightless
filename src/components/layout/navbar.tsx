@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Feather } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "./mobile-nav";
+import { ThemeToggle } from "./theme-toggle";
 
 const navLinks = [
   { href: "/jobs", label: "Jobs" },
@@ -41,13 +42,14 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-2">
           <Link
             href="/post-job"
             className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Post a Job
           </Link>
+          <ThemeToggle />
           <Link
             href="/jobs"
             className="inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90"

@@ -50,7 +50,7 @@ export async function generateMetadata({
       siteName: "Weightless",
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: `${job.title} at ${job.company?.name}`,
       description,
     },

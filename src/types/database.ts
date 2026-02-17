@@ -90,6 +90,17 @@ export interface JobTag {
   tag_id: string;
 }
 
+export interface JobAlert {
+  id: string;
+  email: string;
+  category_slug: string | null;
+  keywords: string | null;
+  frequency: 'daily' | 'weekly';
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 // Search params for the jobs page
 export interface JobSearchParams {
   q?: string;

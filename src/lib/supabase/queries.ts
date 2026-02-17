@@ -276,6 +276,78 @@ export async function getMarketSnapshots(
   return data as MarketSnapshot[];
 }
 
+/* ---------------------------------------------------------------------------
+ * City / Cost-of-Living helpers for programmatic SEO pages
+ * --------------------------------------------------------------------------- */
+
+/** Normalise a city name into a URL-safe slug.
+ *  "Ho Chi Minh City" → "ho-chi-minh-city"
+ *  "São Paulo" → "sao-paulo"
+ */
+export function cityToSlug(city: string): string {
+  return city
+    .normalize("NFD")                   // decompose diacritics
+    .replace(/[\u0300-\u036f]/g, "")    // strip combining marks
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/** Fetch ALL cities from cost_of_living (no limit). */
+export async function getAllCities(): Promise<CostOfLiving[]> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("cost_of_living")
+    .select("*")
+    .order("nomad_score", { ascending: false });
+
+  if (error) {
+    console.error("getAllCities error:", error);
+    return [];
+  }
+
+  return data as CostOfLiving[];
+}
+
+/** Find a single city by its URL slug.
+ *  The table has no slug column so we fetch all rows and match in JS. */
+export async function getCityBySlug(
+  slug: string
+): Promise<CostOfLiving | null> {
+  const cities = await getAllCities();
+  return cities.find((c) => cityToSlug(c.city) === slug) ?? null;
+}
+
+/** Return the latest active remote jobs (loosely filtered). */
+export async function getJobsForCity(
+  city: string,
+  limit = 10
+): Promise<JobWithCompany[]> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("jobs")
+    .select(
+      `
+      *,
+      company:companies(*),
+      category:categories(*)
+    `
+    )
+    .eq("is_active", true)
+    .order("date_posted", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error("getJobsForCity error:", error);
+    return [];
+  }
+
+  return data as JobWithCompany[];
+}
+
 export async function getStats(): Promise<{
   jobCount: number;
   companyCount: number;

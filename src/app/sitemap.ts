@@ -29,6 +29,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .select("slug")
     .gt("job_count", 0);
 
+  // Fetch cities for programmatic SEO pages
+  const { data: cities } = await supabase
+    .from("cost_of_living")
+    .select("city")
+    .order("nomad_score", { ascending: false });
+
+  // Slug helper (must match the one in queries.ts)
+  function cityToSlug(city: string): string {
+    return city
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/[\s_]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
   const staticPages: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified: new Date(), changeFrequency: "daily", priority: 1.0 },
     { url: `${siteUrl}/jobs`, lastModified: new Date(), changeFrequency: "hourly", priority: 0.9 },
@@ -36,6 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/salaries`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.85 },
     { url: `${siteUrl}/trends`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${siteUrl}/calculator`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${siteUrl}/remote-jobs-in`, lastModified: new Date(), changeFrequency: "daily", priority: 0.85 },
     { url: `${siteUrl}/pricing`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteUrl}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
     { url: `${siteUrl}/post-job`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
@@ -62,5 +80,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...categoryPages, ...jobPages, ...companyPages];
+  const cityPages: MetadataRoute.Sitemap = (cities || []).map((city) => ({
+    url: `${siteUrl}/remote-jobs-in/${cityToSlug(city.city)}`,
+    lastModified: new Date(),
+    changeFrequency: "daily" as const,
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...categoryPages, ...jobPages, ...companyPages, ...cityPages];
 }
