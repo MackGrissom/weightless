@@ -8,8 +8,9 @@ import { MobileNav } from "./mobile-nav";
 
 const navLinks = [
   { href: "/jobs", label: "Jobs" },
+  { href: "/salaries", label: "Salaries" },
+  { href: "/trends", label: "Trends" },
   { href: "/companies", label: "Companies" },
-  { href: "/about", label: "About" },
 ];
 
 export function Navbar() {

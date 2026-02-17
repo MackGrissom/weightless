@@ -112,3 +112,34 @@ export interface SearchJobsResult {
   jobs: JobWithCompany[];
   total_count: number;
 }
+
+// Data products
+export interface SalaryBenchmark {
+  id: string;
+  role_category: string;
+  normalized_title: string;
+  experience_level: string | null;
+  sample_size: number;
+  p25_salary: number | null;
+  p50_salary: number | null;
+  p75_salary: number | null;
+  avg_salary: number | null;
+  min_salary: number | null;
+  max_salary: number | null;
+  top_companies: string[];
+  top_tech: string[];
+  updated_at: string;
+}
+
+export interface MarketSnapshot {
+  id: string;
+  snapshot_date: string;
+  category_slug: string | null;
+  tech_skill: string | null;
+  experience_level: string | null;
+  job_count: number;
+  avg_salary_min: number | null;
+  avg_salary_max: number | null;
+  median_salary: number | null;
+  created_at: string;
+}

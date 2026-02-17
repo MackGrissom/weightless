@@ -3,7 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(req: NextRequest) {
   try {
-    const { jobId, email } = await req.json();
+    const { jobId, email, salaryRange, userLocation } = await req.json();
 
     if (!jobId) {
       return NextResponse.json({ error: "Job ID required" }, { status: 400 });
@@ -11,10 +11,12 @@ export async function POST(req: NextRequest) {
 
     const supabase = createAdminClient();
 
-    // Track the click
+    // Track the click + optional salary survey
     await supabase.from("apply_clicks").insert({
       job_id: jobId,
       email: email || null,
+      salary_range: salaryRange || null,
+      user_location: userLocation || null,
       user_agent: req.headers.get("user-agent"),
       referrer: req.headers.get("referer"),
     });

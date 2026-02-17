@@ -20,6 +20,8 @@ export function ApplyGate({
 }: ApplyGateProps) {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState("");
+  const [salaryRange, setSalaryRange] = useState("");
+  const [userLocation, setUserLocation] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "done">("idle");
 
   async function handleApply(skipEmail = false) {
@@ -32,6 +34,8 @@ export function ApplyGate({
         body: JSON.stringify({
           jobId,
           email: skipEmail ? null : email || null,
+          salaryRange: salaryRange || null,
+          userLocation: userLocation || null,
         }),
       });
     } catch {
@@ -105,6 +109,28 @@ export function ApplyGate({
                 className="h-11"
                 autoFocus
               />
+              <div className="flex gap-2">
+                <select
+                  value={salaryRange}
+                  onChange={(e) => setSalaryRange(e.target.value)}
+                  className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-xs text-muted-foreground"
+                >
+                  <option value="">Current salary (optional)</option>
+                  <option value="0-50k">Under $50k</option>
+                  <option value="50-80k">$50k – $80k</option>
+                  <option value="80-120k">$80k – $120k</option>
+                  <option value="120-160k">$120k – $160k</option>
+                  <option value="160-200k">$160k – $200k</option>
+                  <option value="200k+">$200k+</option>
+                </select>
+                <Input
+                  type="text"
+                  placeholder="City (optional)"
+                  value={userLocation}
+                  onChange={(e) => setUserLocation(e.target.value)}
+                  className="flex-1 h-9 text-xs"
+                />
+              </div>
               <Button
                 type="submit"
                 className="w-full"

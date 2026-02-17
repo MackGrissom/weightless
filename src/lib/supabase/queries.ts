@@ -6,6 +6,8 @@ import type {
   CostOfLiving,
   JobSearchParams,
   SearchJobsResult,
+  SalaryBenchmark,
+  MarketSnapshot,
 } from "@/types/database";
 
 export async function searchJobs(
@@ -209,6 +211,69 @@ export async function getCostOfLiving(limit = 30): Promise<CostOfLiving[]> {
   }
 
   return data as CostOfLiving[];
+}
+
+export async function getSalaryBenchmarks(
+  category?: string
+): Promise<SalaryBenchmark[]> {
+  const supabase = createClient();
+
+  let query = supabase
+    .from("salary_benchmarks")
+    .select("*")
+    .gt("sample_size", 2)
+    .order("sample_size", { ascending: false });
+
+  if (category) {
+    query = query.eq("role_category", category);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("getSalaryBenchmarks error:", error);
+    return [];
+  }
+
+  return data as SalaryBenchmark[];
+}
+
+export async function getSalaryBenchmarkByTitle(
+  title: string
+): Promise<SalaryBenchmark[]> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("salary_benchmarks")
+    .select("*")
+    .eq("normalized_title", title)
+    .order("experience_level", { ascending: true });
+
+  if (error) {
+    console.error("getSalaryBenchmarkByTitle error:", error);
+    return [];
+  }
+
+  return data as SalaryBenchmark[];
+}
+
+export async function getMarketSnapshots(
+  weeks = 12
+): Promise<MarketSnapshot[]> {
+  const supabase = createClient();
+
+  const { data, error } = await supabase
+    .from("market_snapshots")
+    .select("*")
+    .order("snapshot_date", { ascending: false })
+    .limit(weeks * 40); // ~40 rows per week (8 cats + 26 tech + 5 exp)
+
+  if (error) {
+    console.error("getMarketSnapshots error:", error);
+    return [];
+  }
+
+  return data as MarketSnapshot[];
 }
 
 export async function getStats(): Promise<{

@@ -9,8 +9,10 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/jobs", label: "Jobs" },
+  { href: "/salaries", label: "Salaries" },
+  { href: "/trends", label: "Trends" },
+  { href: "/calculator", label: "Calculator" },
   { href: "/companies", label: "Companies" },
-  { href: "/about", label: "About" },
 ];
 
 export function MobileNav() {

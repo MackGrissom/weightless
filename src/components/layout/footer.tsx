@@ -4,19 +4,21 @@ import { Feather } from "lucide-react";
 const footerLinks = {
   "Job Seekers": [
     { href: "/jobs", label: "Browse Jobs" },
-    { href: "/jobs?job_type=full_time", label: "Full-Time Remote" },
-    { href: "/jobs?job_type=contract", label: "Contract Work" },
-    { href: "/jobs?visa=true", label: "Visa Sponsorship" },
+    { href: "/salaries", label: "Salary Explorer" },
+    { href: "/calculator", label: "Where to Live?" },
+    { href: "/trends", label: "Hiring Trends" },
   ],
   Explore: [
     { href: "/companies", label: "Companies" },
+    { href: "/pricing", label: "Pricing" },
     { href: "/about", label: "About Us" },
+    { href: "/post-job", label: "Post a Job" },
   ],
   Categories: [
     { href: "/jobs?category=engineering", label: "Engineering" },
     { href: "/jobs?category=design", label: "Design" },
     { href: "/jobs?category=marketing", label: "Marketing" },
-    { href: "/jobs?category=product", label: "Product" },
+    { href: "/jobs?category=data", label: "Data & Analytics" },
   ],
 };
 
