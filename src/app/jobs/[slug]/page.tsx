@@ -9,6 +9,7 @@ import { JobStructuredData } from "@/components/jobs/job-structured-data";
 import { SalaryDisplay } from "@/components/jobs/salary-display";
 import { TimezoneBadge } from "@/components/jobs/timezone-badge";
 import { JobCard } from "@/components/jobs/job-card";
+import { NomadToolkit } from "@/components/jobs/nomad-toolkit";
 import { Card } from "@/components/ui/card";
 import {
   getJobBySlug,
@@ -121,6 +122,8 @@ export default async function JobPage({ params }: JobPageProps) {
               isAsyncFriendly={job.is_async_friendly}
               className="w-full justify-center py-2"
             />
+
+            <NomadToolkit />
           </aside>
         </div>
 

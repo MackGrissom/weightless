@@ -7,10 +7,9 @@ import {
   Globe,
   Plane,
   Zap,
-  ExternalLink,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { ApplyGate } from "@/components/jobs/apply-gate";
 import { formatSalaryRange, timeAgo, formatTimezone } from "@/lib/utils";
 import type { JobWithCompany } from "@/types/database";
 
@@ -113,16 +112,12 @@ export function JobDetailHeader({ job }: JobDetailHeaderProps) {
 
       <div className="flex items-center gap-3 pt-2">
         {job.apply_url && (
-          <a
-            href={job.apply_url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button size="lg">
-              Apply Now
-              <ExternalLink className="ml-2 h-4 w-4" />
-            </Button>
-          </a>
+          <ApplyGate
+            jobId={job.id}
+            applyUrl={job.apply_url}
+            jobTitle={job.title}
+            companyName={job.company?.name || "this company"}
+          />
         )}
         <span className="text-sm text-muted-foreground">
           Posted {timeAgo(job.date_posted)}
