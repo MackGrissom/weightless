@@ -22,7 +22,7 @@ const affiliateLinks: AffiliateLink[] = [
   {
     name: "Preply",
     description: "Learn any language with 1-on-1 tutors — get a discount",
-    url: "https://preply.com/?pref=weightless",
+    url: "https://preply.com/en/?pref=ODI0Mjg2OA==&id=1771317910.148283&ep=w1",
     icon: <Languages className="h-4 w-4" />,
     tag: "Language",
   },
