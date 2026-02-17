@@ -1,12 +1,11 @@
-import Image from "next/image";
 import {
-  Building2,
   Globe,
   Users,
   Star,
   ExternalLink,
   MapPin,
 } from "lucide-react";
+import { CompanyLogo } from "@/components/shared/company-logo";
 import { Badge } from "@/components/ui/badge";
 import { Tag } from "@/components/shared/tag";
 import type { Company } from "@/types/database";
@@ -20,19 +19,12 @@ export function CompanyHeader({ company, jobCount }: CompanyHeaderProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-start gap-4">
-        {company.logo_url ? (
-          <Image
-            src={company.logo_url}
-            alt={company.name}
-            width={80}
-            height={80}
-            className="h-20 w-20 rounded-xl object-cover bg-muted"
-          />
-        ) : (
-          <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-muted">
-            <Building2 className="h-10 w-10 text-muted-foreground" />
-          </div>
-        )}
+        <CompanyLogo
+          src={company.logo_url}
+          alt={company.name}
+          size={80}
+          className="rounded-xl"
+        />
         <div>
           <h1 className="text-2xl font-bold sm:text-3xl">{company.name}</h1>
           <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">

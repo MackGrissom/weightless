@@ -4,6 +4,7 @@ import type { SalaryBenchmark, CostOfLiving } from "@/types/database";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tag } from "@/components/shared/tag";
+import { SalariesContent } from "./salaries-content";
 
 export const revalidate = 3600; // ISR: 1 hour
 
@@ -372,80 +373,106 @@ export default async function SalariesPage() {
           </p>
         </div>
       ) : (
-        <div className="space-y-16">
-          {categories.map((category) => (
-            <section key={category} id={category}>
-              <h2 className="text-2xl font-bold capitalize mb-6">
-                {category.replace(/_/g, " ")}
-              </h2>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {grouped[category].map((benchmark) => (
-                  <SalaryCard
-                    key={benchmark.id}
-                    benchmark={benchmark}
-                    globalMax={globalMax}
-                  />
+        <SalariesContent
+          freeSection={
+            <div className="space-y-16">
+              {categories.slice(0, 1).map((category) => (
+                <section key={category} id={category}>
+                  <h2 className="text-2xl font-bold capitalize mb-6">
+                    {category.replace(/_/g, " ")}
+                  </h2>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {grouped[category].map((benchmark) => (
+                      <SalaryCard
+                        key={benchmark.id}
+                        benchmark={benchmark}
+                        globalMax={globalMax}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          }
+          gatedSection={
+            <>
+              <div className="space-y-16 mt-16">
+                {categories.slice(1).map((category) => (
+                  <section key={category} id={category}>
+                    <h2 className="text-2xl font-bold capitalize mb-6">
+                      {category.replace(/_/g, " ")}
+                    </h2>
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      {grouped[category].map((benchmark) => (
+                        <SalaryCard
+                          key={benchmark.id}
+                          benchmark={benchmark}
+                          globalMax={globalMax}
+                        />
+                      ))}
+                    </div>
+                  </section>
                 ))}
               </div>
-            </section>
-          ))}
-        </div>
-      )}
 
-      {/* Cost-of-living comparison */}
-      {topCities.length > 0 && (
-        <section className="mt-20">
-          <div className="mb-8 max-w-3xl">
-            <h2 className="text-3xl font-bold">
-              What does your salary{" "}
-              <span className="text-accent">buy</span>?
-            </h2>
-            <p className="mt-3 text-muted-foreground leading-relaxed">
-              The median remote salary across all roles is{" "}
-              <span className="font-semibold text-accent">
-                {formatSalary(overallMedian)}
-              </span>
-              . Here&apos;s how far that goes in the top-rated digital nomad
-              cities.
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {topCities.map((city) => (
-              <CityComparison
-                key={city.id}
-                city={city}
-                medianSalary={overallMedian}
-              />
-            ))}
-          </div>
-        </section>
-      )}
+              {/* Cost-of-living comparison */}
+              {topCities.length > 0 && (
+                <section className="mt-20">
+                  <div className="mb-8 max-w-3xl">
+                    <h2 className="text-3xl font-bold">
+                      What does your salary{" "}
+                      <span className="text-accent">buy</span>?
+                    </h2>
+                    <p className="mt-3 text-muted-foreground leading-relaxed">
+                      The median remote salary across all roles is{" "}
+                      <span className="font-semibold text-accent">
+                        {formatSalary(overallMedian)}
+                      </span>
+                      . Here&apos;s how far that goes in the top-rated digital nomad
+                      cities.
+                    </p>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {topCities.map((city) => (
+                      <CityComparison
+                        key={city.id}
+                        city={city}
+                        medianSalary={overallMedian}
+                      />
+                    ))}
+                  </div>
+                </section>
+              )}
 
-      {/* Bottom CTA */}
-      <section className="mt-20 rounded-xl border border-border bg-card p-8 sm:p-12 text-center">
-        <h2 className="text-2xl font-bold">
-          Know your worth. Work from{" "}
-          <span className="text-accent">anywhere</span>.
-        </h2>
-        <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
-          Salary data is refreshed weekly from active remote job listings. Pair
-          it with our cost-of-living tools and start planning your next move.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <a
-            href="/jobs"
-            className="inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
-          >
-            Browse Remote Jobs
-          </a>
-          <a
-            href="/about"
-            className="inline-flex items-center rounded-lg border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-          >
-            Learn More
-          </a>
-        </div>
-      </section>
+              {/* Bottom CTA */}
+              <section className="mt-20 rounded-xl border border-border bg-card p-8 sm:p-12 text-center">
+                <h2 className="text-2xl font-bold">
+                  Know your worth. Work from{" "}
+                  <span className="text-accent">anywhere</span>.
+                </h2>
+                <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
+                  Salary data is refreshed weekly from active remote job listings. Pair
+                  it with our cost-of-living tools and start planning your next move.
+                </p>
+                <div className="mt-6 flex flex-wrap justify-center gap-3">
+                  <a
+                    href="/jobs"
+                    className="inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/90"
+                  >
+                    Browse Remote Jobs
+                  </a>
+                  <a
+                    href="/about"
+                    className="inline-flex items-center rounded-lg border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
+                  >
+                    Learn More
+                  </a>
+                </div>
+              </section>
+            </>
+          }
+        />
+      )}
     </div>
   );
 }

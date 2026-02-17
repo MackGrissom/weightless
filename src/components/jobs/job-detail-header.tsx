@@ -1,6 +1,4 @@
-import Image from "next/image";
 import {
-  Building2,
   Clock,
   DollarSign,
   MapPin,
@@ -8,6 +6,7 @@ import {
   Plane,
   Zap,
 } from "lucide-react";
+import { CompanyLogo } from "@/components/shared/company-logo";
 import { Badge } from "@/components/ui/badge";
 import { ApplyGate } from "@/components/jobs/apply-gate";
 import { formatSalaryRange, timeAgo, formatTimezone } from "@/lib/utils";
@@ -40,19 +39,12 @@ export function JobDetailHeader({ job }: JobDetailHeaderProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-start gap-4">
-        {job.company?.logo_url ? (
-          <Image
-            src={job.company.logo_url}
-            alt={job.company.name}
-            width={64}
-            height={64}
-            className="h-16 w-16 rounded-xl object-cover bg-muted"
-          />
-        ) : (
-          <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-muted">
-            <Building2 className="h-8 w-8 text-muted-foreground" />
-          </div>
-        )}
+        <CompanyLogo
+          src={job.company?.logo_url ?? null}
+          alt={job.company?.name ?? "Company"}
+          size={64}
+          className="rounded-xl"
+        />
 
         <div className="flex-1">
           <div className="flex items-center gap-2 flex-wrap">

@@ -1,13 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
-  Building2,
   MapPin,
   Clock,
   DollarSign,
   Globe,
   Plane,
 } from "lucide-react";
+import { CompanyLogo } from "@/components/shared/company-logo";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Tag } from "@/components/shared/tag";
@@ -34,19 +33,11 @@ export function JobCard({ job }: JobCardProps) {
     <Link href={`/jobs/${job.slug}`} className="block group">
       <Card className="p-5 transition-colors hover:border-accent/30 hover:bg-card/80">
         <div className="flex items-start gap-4">
-          {job.company?.logo_url ? (
-            <Image
-              src={job.company.logo_url}
-              alt={job.company.name}
-              width={48}
-              height={48}
-              className="h-12 w-12 rounded-lg object-cover bg-muted"
-            />
-          ) : (
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
-              <Building2 className="h-6 w-6 text-muted-foreground" />
-            </div>
-          )}
+          <CompanyLogo
+            src={job.company?.logo_url ?? null}
+            alt={job.company?.name ?? "Company"}
+            size={48}
+          />
 
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Building2, Globe, Users, Star } from "lucide-react";
+import { Globe, Users, Star } from "lucide-react";
+import { CompanyLogo } from "@/components/shared/company-logo";
 import { Card } from "@/components/ui/card";
 import { Tag } from "@/components/shared/tag";
 import type { Company } from "@/types/database";
@@ -15,19 +15,11 @@ export function CompanyCard({ company, jobCount }: CompanyCardProps) {
     <Link href={`/companies/${company.slug}`} className="block group">
       <Card className="p-6 h-full transition-colors hover:border-accent/30">
         <div className="flex items-start gap-3">
-          {company.logo_url ? (
-            <Image
-              src={company.logo_url}
-              alt={company.name}
-              width={48}
-              height={48}
-              className="h-12 w-12 rounded-lg object-cover bg-muted"
-            />
-          ) : (
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-muted">
-              <Building2 className="h-6 w-6 text-muted-foreground" />
-            </div>
-          )}
+          <CompanyLogo
+            src={company.logo_url}
+            alt={company.name}
+            size={48}
+          />
           <div className="flex-1 min-w-0">
             <h3 className="font-semibold group-hover:text-accent transition-colors truncate">
               {company.name}

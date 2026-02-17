@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Building2 } from "lucide-react";
+import { CompanyLogo } from "@/components/shared/company-logo";
 import { JobDetailHeader } from "@/components/jobs/job-detail-header";
 import { JobDetailBody } from "@/components/jobs/job-detail-body";
 import { JobStructuredData } from "@/components/jobs/job-structured-data";
@@ -100,19 +99,11 @@ export default async function JobPage({ params }: JobPageProps) {
           <aside className="space-y-6">
             <Card className="p-5">
               <div className="flex items-center gap-3 mb-4">
-                {job.company?.logo_url ? (
-                  <Image
-                    src={job.company.logo_url}
-                    alt={job.company.name}
-                    width={40}
-                    height={40}
-                    className="h-10 w-10 rounded-lg object-cover bg-muted"
-                  />
-                ) : (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
-                    <Building2 className="h-5 w-5 text-muted-foreground" />
-                  </div>
-                )}
+                <CompanyLogo
+                  src={job.company?.logo_url ?? null}
+                  alt={job.company?.name ?? "Company"}
+                  size={40}
+                />
                 <div>
                   <Link
                     href={`/companies/${job.company?.slug}`}

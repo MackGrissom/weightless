@@ -1,4 +1,13 @@
-import { Shield, CreditCard, Wifi, Globe, Users, Briefcase } from "lucide-react";
+import {
+  Shield,
+  CreditCard,
+  Wifi,
+  Globe,
+  Users,
+  Languages,
+  Laptop,
+  BookOpen,
+} from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 interface AffiliateLink {
@@ -10,6 +19,13 @@ interface AffiliateLink {
 }
 
 const affiliateLinks: AffiliateLink[] = [
+  {
+    name: "Preply",
+    description: "Learn any language with 1-on-1 tutors — get a discount",
+    url: "https://preply.com/?pref=weightless",
+    icon: <Languages className="h-4 w-4" />,
+    tag: "Language",
+  },
   {
     name: "SafetyWing",
     description: "Nomad health insurance from $45/mo",
@@ -39,6 +55,13 @@ const affiliateLinks: AffiliateLink[] = [
     tag: "Payments",
   },
   {
+    name: "Skillshare",
+    description: "Level up your skills — first month free",
+    url: "https://skillshare.com/?ref=weightless",
+    icon: <BookOpen className="h-4 w-4" />,
+    tag: "Learning",
+  },
+  {
     name: "Remote.com",
     description: "Global employment made simple",
     url: "https://remote.com/?ref=weightless",
@@ -46,11 +69,11 @@ const affiliateLinks: AffiliateLink[] = [
     tag: "HR",
   },
   {
-    name: "Flexjobs",
-    description: "Vetted remote & flexible job listings",
-    url: "https://flexjobs.com/?ref=weightless",
-    icon: <Briefcase className="h-4 w-4" />,
-    tag: "Jobs",
+    name: "Flatio",
+    description: "Month-to-month apartments for nomads, no deposit",
+    url: "https://flatio.com/?ref=weightless",
+    icon: <Laptop className="h-4 w-4" />,
+    tag: "Housing",
   },
 ];
 
