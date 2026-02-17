@@ -9,6 +9,7 @@ import { SalaryDisplay } from "@/components/jobs/salary-display";
 import { TimezoneBadge } from "@/components/jobs/timezone-badge";
 import { JobCard } from "@/components/jobs/job-card";
 import { NomadToolkit } from "@/components/jobs/nomad-toolkit";
+import { JobNewsletterCta } from "@/components/jobs/job-newsletter-cta";
 import { BreadcrumbStructuredData } from "@/components/shared/structured-data";
 import { Card } from "@/components/ui/card";
 import {
@@ -94,6 +95,7 @@ export default async function JobPage({ params }: JobPageProps) {
           <div className="space-y-8">
             <JobDetailHeader job={job} />
             <JobDetailBody job={job} />
+            <JobNewsletterCta />
           </div>
 
           <aside className="space-y-6">

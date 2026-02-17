@@ -12,6 +12,45 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { PricingToggle } from "./pricing-toggle";
+import { FaqAccordion, FaqStructuredData } from "@/components/shared/faq-accordion";
+
+const faqItems = [
+  {
+    question: "Is Weightless free for job seekers?",
+    answer:
+      "Yes! Browsing jobs, applying, and setting up job alerts are completely free. We also offer a Pro plan with advanced salary data, city comparisons, trend reports, and CSV data export for power users.",
+  },
+  {
+    question: "How much does it cost to post a job?",
+    answer:
+      "Standard job posts are $99 for a 30-day listing. Featured posts are $299 and include priority placement at the top of search results, homepage visibility, and social media promotion.",
+  },
+  {
+    question: "How long does a job listing stay active?",
+    answer:
+      "All job listings are active for 30 days from the date of posting. After 30 days, the listing is automatically archived. You can re-post at any time.",
+  },
+  {
+    question: "Can I edit my job listing after posting?",
+    answer:
+      "Yes, you can edit your job listing at any time while it's active. Changes are reflected immediately on the site.",
+  },
+  {
+    question: "What's the difference between Standard and Featured posts?",
+    answer:
+      "Featured posts get a highlighted badge, are pinned to the top of search results, appear on the Weightless homepage, and are promoted on our social media channels. Standard posts are listed in normal search results order.",
+  },
+  {
+    question: "Do you offer refunds?",
+    answer:
+      "We offer full refunds within 48 hours of posting if your listing hasn't received any applications. After 48 hours, listings are non-refundable. Contact us at hello@weightless.jobs for refund requests.",
+  },
+  {
+    question: "What payment methods do you accept?",
+    answer:
+      "We accept all major credit cards (Visa, Mastercard, American Express) via Stripe. All payments are processed securely.",
+  },
+];
 
 export const metadata: Metadata = {
   title: "Pricing — Weightless Pro",
@@ -137,6 +176,22 @@ export default function PricingPage() {
               </CardFooter>
             </Card>
           ))}
+        </div>
+      </div>
+
+      {/* FAQ */}
+      <div className="mt-24">
+        <FaqStructuredData items={faqItems} />
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold">
+            Frequently Asked <span className="text-accent">Questions</span>
+          </h2>
+          <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
+            Everything you need to know about Weightless pricing and features.
+          </p>
+        </div>
+        <div className="max-w-3xl mx-auto">
+          <FaqAccordion items={faqItems} />
         </div>
       </div>
     </div>

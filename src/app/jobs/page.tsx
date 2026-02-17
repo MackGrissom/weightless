@@ -90,6 +90,7 @@ interface JobsPageProps {
     visa?: string;
     async_friendly?: string;
     tech?: string;
+    sort?: string;
     page?: string;
   };
 }
@@ -120,6 +121,7 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
       visa: searchParams.visa === "true" ? true : undefined,
       async_friendly: searchParams.async_friendly === "true" ? true : undefined,
       tech: searchParams.tech,
+      sort: searchParams.sort,
       page,
       per_page: PER_PAGE,
     }),

@@ -36,7 +36,20 @@ export async function searchJobs(
     return { jobs: [], total_count: 0 };
   }
 
-  return data as SearchJobsResult;
+  const result = data as SearchJobsResult;
+
+  // Client-side sort (RPC returns by relevance/date by default)
+  if (params.sort === "salary_desc") {
+    result.jobs.sort(
+      (a, b) => (b.salary_max ?? 0) - (a.salary_max ?? 0)
+    );
+  } else if (params.sort === "salary_asc") {
+    result.jobs.sort(
+      (a, b) => (a.salary_min ?? Infinity) - (b.salary_min ?? Infinity)
+    );
+  }
+
+  return result;
 }
 
 export async function getFeaturedJobs(limit = 6): Promise<JobWithCompany[]> {

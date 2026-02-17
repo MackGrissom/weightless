@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/salaries", label: "Salaries" },
   { href: "/trends", label: "Trends" },
   { href: "/companies", label: "Companies" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export function Navbar() {

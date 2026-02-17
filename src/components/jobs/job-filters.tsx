@@ -2,7 +2,7 @@
 
 import { useCallback, useTransition } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { SlidersHorizontal, X } from "lucide-react";
+import { SlidersHorizontal, X, ArrowUpDown } from "lucide-react";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import type { Category } from "@/types/database";
@@ -65,6 +65,21 @@ export function JobFilters({ categories }: JobFiltersProps) {
       </div>
 
       <div className="space-y-3">
+        <div>
+          <label className="text-xs text-muted-foreground mb-1 block">
+            <ArrowUpDown className="h-3 w-3 inline mr-1" />
+            Sort By
+          </label>
+          <Select
+            value={searchParams.get("sort") ?? ""}
+            onChange={(e) => updateFilter("sort", e.target.value)}
+          >
+            <option value="">Newest First</option>
+            <option value="salary_desc">Salary: High to Low</option>
+            <option value="salary_asc">Salary: Low to High</option>
+          </Select>
+        </div>
+
         <div>
           <label className="text-xs text-muted-foreground mb-1 block">
             Category

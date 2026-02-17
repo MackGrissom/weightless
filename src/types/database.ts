@@ -114,6 +114,7 @@ export interface JobSearchParams {
   visa?: boolean;
   async_friendly?: boolean;
   tech?: string;
+  sort?: string;
   page?: number;
   per_page?: number;
 }
