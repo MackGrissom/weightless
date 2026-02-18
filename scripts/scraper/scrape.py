@@ -6,8 +6,8 @@ Run: python scripts/scraper/scrape.py [--batch N --total-batches M]
 
 import os
 import re
-import sys
 import time
+import random
 import hashlib
 import argparse
 from datetime import datetime, timedelta
@@ -278,7 +278,13 @@ def generate_source_id(source: str, job_id: str, title: str, company: str) -> st
     return hashlib.md5(raw.encode()).hexdigest()[:16]
 
 
-JOB_BOARD_DOMAINS = {"indeed.com", "linkedin.com", "glassdoor.com", "ziprecruiter.com"}
+def make_fingerprint(title: str, company: str) -> str:
+    """Generate a cross-source fingerprint for deduplication across job boards."""
+    normalized = re.sub(r"[^a-z0-9]", "", f"{title}{company}".lower())
+    return hashlib.md5(normalized.encode()).hexdigest()[:20]
+
+
+JOB_BOARD_DOMAINS = {"indeed.com", "linkedin.com", "glassdoor.com", "ziprecruiter.com", "google.com"}
 
 
 def is_job_board_domain(domain: str) -> bool:
@@ -353,8 +359,14 @@ def get_category_id(slug: str) -> str | None:
     return result.data[0]["id"] if result.data else None
 
 
+# In-memory set of fingerprints seen during this run (cross-source dedup within a run)
+_seen_fingerprints: set[str] = set()
+
+
 def scrape_and_load(batch: int = 0, total_batches: int = 1):
     """Main scraping pipeline."""
+    global _seen_fingerprints
+
     # Split queries into batches for parallel execution
     queries = SEARCH_QUERIES
     if total_batches > 1:
@@ -367,18 +379,20 @@ def scrape_and_load(batch: int = 0, total_batches: int = 1):
     print(f"Starting scrape at {datetime.now().isoformat()}")
     total_new = 0
     total_skipped = 0
+    total_cross_dupes = 0
     total_errors = 0
 
     for i, query in enumerate(queries):
         print(f"\nSearching: '{query}' ({i + 1}/{len(queries)})")
 
-        # Throttle between queries to avoid rate limiting (Glassdoor 429s)
+        # Randomized throttle between queries to avoid rate limiting
         if i > 0:
-            time.sleep(5)
+            delay = random.uniform(3, 10)
+            time.sleep(delay)
 
         try:
             jobs_df = scrape_jobs(
-                site_name=["indeed", "linkedin", "glassdoor"],
+                site_name=["indeed", "linkedin", "glassdoor", "google"],
                 search_term=query,
                 location="remote",
                 results_wanted=80,
@@ -401,13 +415,21 @@ def scrape_and_load(batch: int = 0, total_batches: int = 1):
                     if not title or company_name == "Unknown":
                         continue
 
+                    # Cross-source dedup: skip if we've seen this title+company combo
+                    fingerprint = make_fingerprint(title, company_name)
+                    if fingerprint in _seen_fingerprints:
+                        total_cross_dupes += 1
+                        continue
+                    _seen_fingerprints.add(fingerprint)
+
                     source = safe_str(row.get("site"), "manual").lower()
                     if source == "zip_recruiter":
                         source = "ziprecruiter"
                     job_id_raw = safe_str(row.get("id"))
                     source_id = generate_source_id(source, job_id_raw, title, company_name)
 
-                    # Check for duplicates
+                    # Check for existing in DB (same source + source_id)
+                    # Note: 'google' maps to 'manual' until ALTER TYPE migration is run
                     valid_sources = ["indeed", "linkedin", "glassdoor", "ziprecruiter"]
                     db_source = source if source in valid_sources else "manual"
                     existing = (
@@ -421,11 +443,12 @@ def scrape_and_load(batch: int = 0, total_batches: int = 1):
                         total_skipped += 1
                         continue
 
-                    # Also check slug uniqueness
+                    # Cross-source dedup: check DB for same title+company from ANY source
                     slug = slugify(f"{title}-{company_name}")[:80]
                     slug_exists = supabase.table("jobs").select("id").eq("slug", slug).execute()
                     if slug_exists.data:
-                        slug = f"{slug}-{source_id[:6]}"
+                        total_cross_dupes += 1
+                        continue
 
                     description = safe_str(row.get("description"))
                     description_plain = re.sub(r"<[^>]+>", "", description).strip() if description else ""
@@ -518,7 +541,7 @@ def scrape_and_load(batch: int = 0, total_batches: int = 1):
             supabase.table("categories").update({"job_count": count_result.count or 0}).eq("id", cat["id"]).execute()
         print("Cleanup and category counts updated.")
 
-    print(f"\nScrape complete! New: {total_new}, Skipped (dupes): {total_skipped}, Errors: {total_errors}")
+    print(f"\nScrape complete! New: {total_new}, Skipped (same-source dupes): {total_skipped}, Cross-source dupes: {total_cross_dupes}, Errors: {total_errors}")
 
 
 if __name__ == "__main__":

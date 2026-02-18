@@ -1,6 +1,6 @@
 export type JobType = "full_time" | "part_time" | "contract" | "freelance" | "internship";
 export type ExperienceLevel = "junior" | "mid" | "senior" | "lead" | "executive";
-export type JobSource = "indeed" | "linkedin" | "glassdoor" | "ziprecruiter" | "manual";
+export type JobSource = "indeed" | "linkedin" | "glassdoor" | "ziprecruiter" | "google" | "manual";
 
 export interface Company {
   id: string;
