@@ -7,6 +7,7 @@ Run: python scripts/scraper/scrape.py [--batch N --total-batches M]
 import os
 import re
 import sys
+import time
 import hashlib
 import argparse
 from datetime import datetime, timedelta
@@ -368,14 +369,19 @@ def scrape_and_load(batch: int = 0, total_batches: int = 1):
     total_skipped = 0
     total_errors = 0
 
-    for query in queries:
-        print(f"\nSearching: '{query}'")
+    for i, query in enumerate(queries):
+        print(f"\nSearching: '{query}' ({i + 1}/{len(queries)})")
+
+        # Throttle between queries to avoid rate limiting (Glassdoor 429s)
+        if i > 0:
+            time.sleep(5)
+
         try:
             jobs_df = scrape_jobs(
-                site_name=["indeed", "linkedin", "glassdoor", "zip_recruiter"],
+                site_name=["indeed", "linkedin", "glassdoor"],
                 search_term=query,
                 location="remote",
-                results_wanted=100,
+                results_wanted=80,
                 hours_old=336,  # 14 days
                 is_remote=True,
                 country_indeed="USA",
