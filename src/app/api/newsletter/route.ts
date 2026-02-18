@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
               <li><a href="${siteUrl}/calculator" style="color: #c8ff00;">Where to Live?</a> — Cost-of-living calculator</li>
             </ul>
             <p style="color: #999; font-size: 12px; margin-top: 32px;">
-              You received this because you signed up at Weightless. <a href="${siteUrl}" style="color: #999;">Unsubscribe</a>
+              You received this because you signed up at Weightless. <a href="${siteUrl}/api/unsubscribe?email=${encodeURIComponent(email)}" style="color: #999;">Unsubscribe</a>
             </p>
           </div>
         `,

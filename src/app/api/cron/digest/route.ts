@@ -87,7 +87,7 @@ export async function GET(req: NextRequest) {
           <a href="${siteUrl}/calculator" style="color: #c8ff00;">Calculator</a>
         </p>
         <p style="color: #666; font-size: 11px; margin-top: 8px;">
-          You're getting this because you signed up at Weightless. <a href="${siteUrl}" style="color: #666;">Unsubscribe</a>
+          You're getting this because you signed up at Weightless. <a href="${siteUrl}/api/unsubscribe?email=%%EMAIL%%" style="color: #666;">Unsubscribe</a>
         </p>
       </div>
     </div>
@@ -103,7 +103,7 @@ export async function GET(req: NextRequest) {
       from: fromEmail,
       to,
       subject: `${jobs.length} new remote jobs this week — Weightless`,
-      html: emailHtml,
+      html: emailHtml.replace("%%EMAIL%%", encodeURIComponent(to)),
     }));
 
     try {

@@ -1,12 +1,14 @@
 """
 Weightless Job Scraper
 Scrapes remote jobs from major job boards via JobSpy, transforms and loads into Supabase.
-Run: python scripts/scraper/scrape.py
+Run: python scripts/scraper/scrape.py [--batch N --total-batches M]
 """
 
 import os
 import re
+import sys
 import hashlib
+import argparse
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from jobspy import scrape_jobs
@@ -350,14 +352,23 @@ def get_category_id(slug: str) -> str | None:
     return result.data[0]["id"] if result.data else None
 
 
-def scrape_and_load():
+def scrape_and_load(batch: int = 0, total_batches: int = 1):
     """Main scraping pipeline."""
+    # Split queries into batches for parallel execution
+    queries = SEARCH_QUERIES
+    if total_batches > 1:
+        chunk_size = len(queries) // total_batches + 1
+        start = batch * chunk_size
+        end = min(start + chunk_size, len(queries))
+        queries = queries[start:end]
+        print(f"Batch {batch + 1}/{total_batches}: running queries {start}-{end - 1} ({len(queries)} queries)")
+
     print(f"Starting scrape at {datetime.now().isoformat()}")
     total_new = 0
     total_skipped = 0
     total_errors = 0
 
-    for query in SEARCH_QUERIES:
+    for query in queries:
         print(f"\nSearching: '{query}'")
         try:
             jobs_df = scrape_jobs(
@@ -481,24 +492,32 @@ def scrape_and_load():
             print(f"  Error scraping '{query}': {e}")
             continue
 
-    # Cleanup: mark old jobs inactive
-    cutoff = (datetime.now() - timedelta(days=30)).isoformat()
-    supabase.table("jobs").update({"is_active": False}).eq("is_active", True).lt("date_posted", cutoff).execute()
+    # Only run cleanup on the last batch (or single-batch mode)
+    is_last_batch = (total_batches == 1) or (batch == total_batches - 1)
+    if is_last_batch:
+        # Cleanup: mark old jobs inactive
+        cutoff = (datetime.now() - timedelta(days=30)).isoformat()
+        supabase.table("jobs").update({"is_active": False}).eq("is_active", True).lt("date_posted", cutoff).execute()
 
-    # Update category counts
-    categories = supabase.table("categories").select("id, slug").execute()
-    for cat in categories.data:
-        count_result = (
-            supabase.table("jobs")
-            .select("id", count="exact")
-            .eq("category_id", cat["id"])
-            .eq("is_active", True)
-            .execute()
-        )
-        supabase.table("categories").update({"job_count": count_result.count or 0}).eq("id", cat["id"]).execute()
+        # Update category counts
+        categories = supabase.table("categories").select("id, slug").execute()
+        for cat in categories.data:
+            count_result = (
+                supabase.table("jobs")
+                .select("id", count="exact")
+                .eq("category_id", cat["id"])
+                .eq("is_active", True)
+                .execute()
+            )
+            supabase.table("categories").update({"job_count": count_result.count or 0}).eq("id", cat["id"]).execute()
+        print("Cleanup and category counts updated.")
 
     print(f"\nScrape complete! New: {total_new}, Skipped (dupes): {total_skipped}, Errors: {total_errors}")
 
 
 if __name__ == "__main__":
-    scrape_and_load()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--batch", type=int, default=0, help="Batch index (0-based)")
+    parser.add_argument("--total-batches", type=int, default=1, help="Total number of batches")
+    args = parser.parse_args()
+    scrape_and_load(batch=args.batch, total_batches=args.total_batches)
