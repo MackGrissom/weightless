@@ -15,8 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const PRICE_IDS = {
-  monthly: "price_monthly_placeholder",
-  annual: "price_annual_placeholder",
+  monthly: process.env.NEXT_PUBLIC_STRIPE_PRO_MONTHLY_PRICE_ID || "",
+  annual: process.env.NEXT_PUBLIC_STRIPE_PRO_ANNUAL_PRICE_ID || "",
 } as const;
 
 const freeFeatures = [

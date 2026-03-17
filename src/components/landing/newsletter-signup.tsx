@@ -44,43 +44,47 @@ export function NewsletterSignup() {
           <h2 className="text-2xl font-bold sm:text-3xl">
             Stay in the Loop
           </h2>
-          <p className="mt-2 text-muted-foreground">
+          <p className="mt-2 text-muted-foreground text-sm sm:text-base">
             Get the best new remote jobs delivered to your inbox weekly.
             No spam, unsubscribe anytime.
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-6 flex gap-2">
+          <form onSubmit={handleSubmit} className="mt-6 flex flex-col sm:flex-row gap-2">
             <Input
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="h-12"
+              className="h-12 text-base"
               disabled={status === "loading" || status === "success"}
             />
             <Button
               type="submit"
               size="lg"
+              className="h-12 px-6 sm:px-4 shrink-0"
               disabled={status === "loading" || status === "success"}
             >
               {status === "loading" ? (
                 <div className="h-4 w-4 animate-spin rounded-full border-2 border-accent-foreground border-t-transparent" />
               ) : (
-                <Send className="h-4 w-4" />
+                <>
+                  <Send className="h-4 w-4 sm:mr-0 mr-2" />
+                  <span className="sm:hidden">Subscribe</span>
+                </>
               )}
             </Button>
           </form>
 
           {status === "success" && (
             <p className="mt-3 text-sm text-green-400 flex items-center justify-center gap-1">
-              <CheckCircle className="h-4 w-4" />
+              <CheckCircle className="h-4 w-4 shrink-0" />
               {message}
             </p>
           )}
           {status === "error" && (
             <p className="mt-3 text-sm text-red-400 flex items-center justify-center gap-1">
-              <AlertCircle className="h-4 w-4" />
+              <AlertCircle className="h-4 w-4 shrink-0" />
               {message}
             </p>
           )}

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { rateLimit } from "@/lib/rate-limit";
 
 const VALID_CATEGORIES = [
   "engineering",
@@ -31,6 +32,10 @@ const schema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+    const { success, response } = rateLimit(ip, { limit: 5, windowSeconds: 60 });
+    if (!success) return response!;
+
     const body = await req.json();
     const { email, category, keywords, frequency } = schema.parse(body);
 

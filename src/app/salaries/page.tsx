@@ -365,6 +365,24 @@ export default async function SalariesPage() {
         </div>
       </div>
 
+      {/* Category quick-nav */}
+      {categories.length > 1 && (
+        <div className="mb-8 flex flex-wrap gap-2">
+          {categories.map((category) => (
+            <a
+              key={category}
+              href={`#${category}`}
+              className="inline-flex items-center rounded-full border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-accent/40 hover:text-foreground active:bg-accent/10"
+            >
+              {category.replace(/_/g, " ")}
+              <span className="ml-1.5 text-xs text-accent font-medium">
+                {grouped[category].length}
+              </span>
+            </a>
+          ))}
+        </div>
+      )}
+
       {/* Salary benchmarks by category */}
       {categories.length === 0 ? (
         <div className="rounded-xl border border-border bg-card p-12 text-center">

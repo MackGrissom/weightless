@@ -138,6 +138,35 @@ SEARCH_QUERIES = [
     "worldwide remote",
     "global remote",
     "remote anywhere in the world",
+    # High-demand emerging roles
+    "remote AI prompt engineer",
+    "remote LLM engineer",
+    "remote generative AI",
+    "remote blockchain developer",
+    "remote web3 developer",
+    "remote smart contract",
+    # Underserved niches
+    "remote technical lead",
+    "remote engineering manager",
+    "remote CTO",
+    "remote VP engineering",
+    "remote staff engineer",
+    "remote principal engineer",
+    # Non-tech remote roles (high volume)
+    "remote executive assistant",
+    "remote virtual assistant",
+    "remote bookkeeper",
+    "remote accountant",
+    "remote graphic design",
+    "remote video editor",
+    "remote translator",
+    "remote community manager",
+    # European / international queries
+    "remote job europe",
+    "remote job visa sponsorship",
+    "remote job worldwide",
+    "remote contractor",
+    "remote freelance developer",
 ]
 
 TECH_KEYWORDS = [
@@ -429,8 +458,7 @@ def scrape_and_load(batch: int = 0, total_batches: int = 1):
                     source_id = generate_source_id(source, job_id_raw, title, company_name)
 
                     # Check for existing in DB (same source + source_id)
-                    # Note: 'google' maps to 'manual' until ALTER TYPE migration is run
-                    valid_sources = ["indeed", "linkedin", "glassdoor", "ziprecruiter"]
+                    valid_sources = ["indeed", "linkedin", "glassdoor", "ziprecruiter", "google"]
                     db_source = source if source in valid_sources else "manual"
                     existing = (
                         supabase.table("jobs")
@@ -524,9 +552,23 @@ def scrape_and_load(batch: int = 0, total_batches: int = 1):
     # Only run cleanup on the last batch (or single-batch mode)
     is_last_batch = (total_batches == 1) or (batch == total_batches - 1)
     if is_last_batch:
-        # Cleanup: mark old jobs inactive
+        # Cleanup: mark old jobs inactive (batched to avoid statement timeout)
         cutoff = (datetime.now() - timedelta(days=30)).isoformat()
-        supabase.table("jobs").update({"is_active": False}).eq("is_active", True).lt("date_posted", cutoff).execute()
+        print("Deactivating old jobs...")
+        while True:
+            stale = (
+                supabase.table("jobs")
+                .select("id")
+                .eq("is_active", True)
+                .lt("date_posted", cutoff)
+                .limit(500)
+                .execute()
+            )
+            if not stale.data:
+                break
+            stale_ids = [row["id"] for row in stale.data]
+            supabase.table("jobs").update({"is_active": False}).in_("id", stale_ids).execute()
+            print(f"  Deactivated {len(stale_ids)} old jobs")
 
         # Update category counts
         categories = supabase.table("categories").select("id, slug").execute()

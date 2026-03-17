@@ -169,6 +169,7 @@ export function PostJobForm() {
                 value={form.title}
                 onChange={(e) => updateForm("title", e.target.value)}
                 required
+                maxLength={200}
               />
             </div>
             <div>
@@ -180,6 +181,7 @@ export function PostJobForm() {
                 value={form.company_name}
                 onChange={(e) => updateForm("company_name", e.target.value)}
                 required
+                maxLength={200}
               />
             </div>
           </div>
@@ -190,9 +192,11 @@ export function PostJobForm() {
                 Company Website
               </label>
               <Input
+                type="url"
                 placeholder="https://example.com"
                 value={form.company_website}
                 onChange={(e) => updateForm("company_website", e.target.value)}
+                maxLength={500}
               />
             </div>
             <div>
@@ -205,6 +209,7 @@ export function PostJobForm() {
                 value={form.company_email}
                 onChange={(e) => updateForm("company_email", e.target.value)}
                 required
+                maxLength={254}
               />
             </div>
           </div>
@@ -219,6 +224,7 @@ export function PostJobForm() {
               value={form.description}
               onChange={(e) => updateForm("description", e.target.value)}
               required
+              maxLength={10000}
             />
           </div>
 
@@ -261,6 +267,7 @@ export function PostJobForm() {
                 onChange={(e) =>
                   updateForm("location_requirements", e.target.value)
                 }
+                maxLength={200}
               />
             </div>
           </div>
@@ -275,6 +282,8 @@ export function PostJobForm() {
                 placeholder="80000"
                 value={form.salary_min}
                 onChange={(e) => updateForm("salary_min", e.target.value)}
+                min={0}
+                max={10000000}
               />
             </div>
             <div>
@@ -286,6 +295,8 @@ export function PostJobForm() {
                 placeholder="120000"
                 value={form.salary_max}
                 onChange={(e) => updateForm("salary_max", e.target.value)}
+                min={0}
+                max={10000000}
               />
             </div>
           </div>
@@ -295,10 +306,12 @@ export function PostJobForm() {
               Application URL *
             </label>
             <Input
+              type="url"
               placeholder="https://example.com/careers/apply"
               value={form.apply_url}
               onChange={(e) => updateForm("apply_url", e.target.value)}
               required
+              maxLength={500}
             />
           </div>
 
@@ -310,6 +323,7 @@ export function PostJobForm() {
               placeholder="React, TypeScript, Node.js, PostgreSQL"
               value={form.tech_stack}
               onChange={(e) => updateForm("tech_stack", e.target.value)}
+              maxLength={500}
             />
           </div>
         </div>

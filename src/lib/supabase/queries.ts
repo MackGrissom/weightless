@@ -325,11 +325,20 @@ export async function getAllCities(): Promise<CostOfLiving[]> {
 }
 
 /** Find a single city by its URL slug.
- *  The table has no slug column so we fetch all rows and match in JS. */
+ *  Fetches all cities and matches by slug. Results are cached via ISR
+ *  on the calling page so this doesn't run on every request. */
+let _cityCachePromise: Promise<CostOfLiving[]> | null = null;
+
 export async function getCityBySlug(
   slug: string
 ): Promise<CostOfLiving | null> {
-  const cities = await getAllCities();
+  // Reuse in-flight request within the same render pass
+  if (!_cityCachePromise) {
+    _cityCachePromise = getAllCities();
+    // Clear after this tick so next render gets fresh data
+    Promise.resolve().then(() => { _cityCachePromise = null; });
+  }
+  const cities = await _cityCachePromise;
   return cities.find((c) => cityToSlug(c.city) === slug) ?? null;
 }
 
@@ -365,21 +374,79 @@ export async function getStats(): Promise<{
   jobCount: number;
   companyCount: number;
   categoryCount: number;
+  applyCount: number;
+  newJobsThisWeek: number;
+  cityCount: number;
 }> {
   const supabase = createClient();
 
-  const [jobs, companies, categories] = await Promise.all([
-    supabase
-      .from("jobs")
-      .select("id", { count: "exact", head: true })
-      .eq("is_active", true),
-    supabase.from("companies").select("id", { count: "exact", head: true }),
-    supabase.from("categories").select("id", { count: "exact", head: true }),
-  ]);
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+  const [jobs, companies, categories, applies, newJobs, cities] =
+    await Promise.all([
+      supabase
+        .from("jobs")
+        .select("id", { count: "exact", head: true })
+        .eq("is_active", true),
+      supabase.from("companies").select("id", { count: "exact", head: true }),
+      supabase.from("categories").select("id", { count: "exact", head: true }),
+      supabase
+        .from("apply_clicks")
+        .select("id", { count: "exact", head: true }),
+      supabase
+        .from("jobs")
+        .select("id", { count: "exact", head: true })
+        .eq("is_active", true)
+        .gte("date_posted", oneWeekAgo.toISOString()),
+      supabase
+        .from("cost_of_living")
+        .select("id", { count: "exact", head: true }),
+    ]);
 
   return {
     jobCount: jobs.count || 0,
     companyCount: companies.count || 0,
     categoryCount: categories.count || 0,
+    applyCount: applies.count || 0,
+    newJobsThisWeek: newJobs.count || 0,
+    cityCount: cities.count || 0,
   };
+}
+
+export async function getTopHiringCompanies(
+  limit = 12
+): Promise<{ name: string; slug: string; logo_url: string | null; jobCount: number }[]> {
+  const supabase = createClient();
+
+  // Get companies that have the most active jobs
+  const { data, error } = await supabase
+    .from("jobs")
+    .select("company:companies(name, slug, logo_url)")
+    .eq("is_active", true);
+
+  if (error || !data) {
+    console.error("getTopHiringCompanies error:", error);
+    return [];
+  }
+
+  // Count jobs per company
+  const counts = new Map<string, { name: string; slug: string; logo_url: string | null; count: number }>();
+  for (const row of data) {
+    const c = row.company as unknown as { name: string; slug: string; logo_url: string | null };
+    if (!c?.slug) continue;
+    const existing = counts.get(c.slug);
+    if (existing) {
+      existing.count++;
+    } else {
+      counts.set(c.slug, { name: c.name, slug: c.slug, logo_url: c.logo_url, count: 1 });
+    }
+  }
+
+  // Sort by count desc, take top N, only include companies with logos
+  return Array.from(counts.values())
+    .filter((c) => c.logo_url)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, limit)
+    .map((c) => ({ name: c.name, slug: c.slug, logo_url: c.logo_url, jobCount: c.count }));
 }

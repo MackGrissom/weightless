@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/comp
 import { StructuredData } from "@/components/shared/structured-data";
 import { NewsletterCTA } from "@/components/blog/newsletter-cta";
 import { blogPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog-content";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export const revalidate = 3600;
 
@@ -141,7 +142,7 @@ export default function BlogPostPage({ params }: PageProps) {
       {/* Post content */}
       <article
         className="prose prose-invert prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-li:text-muted-foreground prose-ol:text-muted-foreground prose-ul:text-muted-foreground"
-        dangerouslySetInnerHTML={{ __html: post.content }}
+        dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
       />
 
       {/* Newsletter CTA */}

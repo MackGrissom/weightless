@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { CompanyCard } from "@/components/companies/company-card";
+import { Building2, Briefcase, Globe } from "lucide-react";
+import { CompanySearch } from "@/components/companies/company-search";
 import { EmptyState } from "@/components/shared/empty-state";
-import { getCompanies } from "@/lib/supabase/queries";
+import { getCompanies, getStats } from "@/lib/supabase/queries";
 
-export const revalidate = 3600; // ISR: 1 hour
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Remote Companies Hiring Digital Nomads",
@@ -18,15 +19,46 @@ export const metadata: Metadata = {
 };
 
 export default async function CompaniesPage() {
-  const companies = await getCompanies();
+  const [companies, stats] = await Promise.all([getCompanies(), getStats()]);
+
+  // Pre-compute job counts per company for display
+  // (company cards don't have this by default)
+  const companiesWithMeta = companies.map((c) => ({
+    ...c,
+    _hasLogo: !!c.logo_url,
+    _hasRating: !!c.glassdoor_rating,
+  }));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Companies</h1>
-        <p className="mt-2 text-muted-foreground">
-          Discover companies that hire remote workers and digital nomads.
+        <h1 className="text-3xl font-bold sm:text-4xl">
+          Remote <span className="text-accent">Companies</span>
+        </h1>
+        <p className="mt-2 text-muted-foreground max-w-2xl">
+          Discover companies that hire remote workers and digital nomads. Browse
+          profiles, tech stacks, ratings, and open positions.
         </p>
+
+        {/* Stats strip */}
+        <div className="mt-4 flex flex-wrap gap-4 text-sm text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <Building2 className="h-4 w-4 text-accent" />
+            <span className="font-semibold text-foreground">{stats.companyCount.toLocaleString()}</span>{" "}
+            companies
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Briefcase className="h-4 w-4 text-accent" />
+            <span className="font-semibold text-foreground">{stats.jobCount.toLocaleString()}</span>{" "}
+            open roles
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Globe className="h-4 w-4 text-accent" />
+            <span className="font-semibold text-foreground">{stats.cityCount}</span>{" "}
+            cities worldwide
+          </span>
+        </div>
       </div>
 
       {companies.length === 0 ? (
@@ -35,11 +67,7 @@ export default async function CompaniesPage() {
           description="Companies will appear here once jobs are scraped."
         />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {companies.map((company) => (
-            <CompanyCard key={company.id} company={company} />
-          ))}
-        </div>
+        <CompanySearch companies={companiesWithMeta} />
       )}
     </div>
   );

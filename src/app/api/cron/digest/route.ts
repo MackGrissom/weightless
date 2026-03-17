@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { safeCompare, escapeHtml } from "@/lib/security";
 
 export async function GET(req: NextRequest) {
-  // Verify cron secret
+  // Verify cron secret (timing-safe comparison)
   const authHeader = req.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const expected = `Bearer ${process.env.CRON_SECRET}`;
+  if (!authHeader || !safeCompare(authHeader, expected)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -60,9 +62,9 @@ export async function GET(req: NextRequest) {
     return `
       <tr>
         <td style="padding: 12px 0; border-bottom: 1px solid #262626;">
-          <a href="${siteUrl}/jobs/${job.slug}" style="color: #ededed; text-decoration: none; font-weight: 600;">${job.title}</a>
+          <a href="${siteUrl}/jobs/${encodeURIComponent(job.slug)}" style="color: #ededed; text-decoration: none; font-weight: 600;">${escapeHtml(job.title)}</a>
           <br/>
-          <span style="color: #a0a0a0; font-size: 13px;">${companyName}${salary}</span>
+          <span style="color: #a0a0a0; font-size: 13px;">${escapeHtml(companyName)}${salary}</span>
         </td>
       </tr>
     `;

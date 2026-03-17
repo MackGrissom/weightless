@@ -49,7 +49,6 @@ export function ApplyGate({
   }
 
   function handleButtonClick() {
-    // Check if user already gave email (stored in localStorage)
     const savedEmail = localStorage.getItem("weightless_email");
     if (savedEmail) {
       setEmail(savedEmail);
@@ -69,7 +68,7 @@ export function ApplyGate({
 
   return (
     <>
-      <Button size="lg" onClick={handleButtonClick}>
+      <Button size="lg" onClick={handleButtonClick} className="h-12">
         {status === "loading" ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (
@@ -79,23 +78,27 @@ export function ApplyGate({
       </Button>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-          <div className="relative w-full max-w-md rounded-xl border border-border bg-background p-6 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4">
+          <div className="relative w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl border border-border bg-background p-6 shadow-2xl safe-area-bottom">
+            {/* Drag handle on mobile */}
+            <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border sm:hidden" />
+
             <button
               onClick={() => setShowModal(false)}
-              className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
+              className="absolute right-3 top-3 h-9 w-9 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              aria-label="Close"
             >
               <X className="h-5 w-5" />
             </button>
 
             <div className="mb-5">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 mb-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 mb-4">
                 <Mail className="h-6 w-6 text-accent" />
               </div>
               <h3 className="text-lg font-bold">
                 Apply to {companyName}
               </h3>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-1 text-sm text-muted-foreground leading-relaxed">
                 Get the link to apply for <span className="text-foreground font-medium">{jobTitle}</span>, plus similar remote jobs sent to your inbox weekly.
               </p>
             </div>
@@ -106,14 +109,14 @@ export function ApplyGate({
                 placeholder="your@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-11"
+                className="h-12 text-base"
                 autoFocus
               />
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <select
                   value={salaryRange}
                   onChange={(e) => setSalaryRange(e.target.value)}
-                  className="flex-1 h-9 rounded-lg border border-border bg-background px-3 text-xs text-muted-foreground"
+                  className="flex-1 h-11 rounded-lg border border-border bg-input px-3 text-sm text-muted-foreground"
                 >
                   <option value="">Current salary (optional)</option>
                   <option value="0-50k">Under $50k</option>
@@ -128,12 +131,12 @@ export function ApplyGate({
                   placeholder="City (optional)"
                   value={userLocation}
                   onChange={(e) => setUserLocation(e.target.value)}
-                  className="flex-1 h-9 text-xs"
+                  className="flex-1 h-11 text-sm"
                 />
               </div>
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full h-12 text-base"
                 size="lg"
                 disabled={status === "loading"}
               >
@@ -148,7 +151,7 @@ export function ApplyGate({
 
             <button
               onClick={() => handleApply(true)}
-              className="mt-3 w-full text-center text-xs text-muted-foreground hover:text-foreground transition-colors"
+              className="mt-4 w-full text-center py-2.5 text-sm text-muted-foreground hover:text-foreground active:text-accent transition-colors"
             >
               Skip and apply directly
             </button>

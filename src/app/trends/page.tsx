@@ -164,6 +164,36 @@ export default async function TrendsPage() {
             year: "numeric",
           })}
         </p>
+
+        {/* Summary stats */}
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="rounded-xl border border-border bg-card p-4 text-center">
+            <p className="text-2xl font-bold text-accent">
+              {categoryData.reduce((sum, s) => sum + s.job_count, 0).toLocaleString()}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">Total Active Jobs</p>
+          </div>
+          <div className="rounded-xl border border-border bg-card p-4 text-center">
+            <p className="text-2xl font-bold text-accent">
+              {categoryData.length}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">Categories Hiring</p>
+          </div>
+          <div className="rounded-xl border border-border bg-card p-4 text-center">
+            <p className="text-2xl font-bold text-accent">
+              {techData.length}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">In-Demand Skills</p>
+          </div>
+          <div className="rounded-xl border border-border bg-card p-4 text-center">
+            <p className="text-2xl font-bold text-accent">
+              {experienceData.length > 0 && experienceData[Math.floor(experienceData.length / 2)]?.median_salary
+                ? formatSalary(experienceData[Math.floor(experienceData.length / 2)].median_salary)
+                : "N/A"}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">Median Salary</p>
+          </div>
+        </div>
       </div>
 
       <TrendsContent

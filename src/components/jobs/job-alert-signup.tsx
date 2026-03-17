@@ -89,6 +89,7 @@ export function JobAlertSignup() {
           <Button
             variant="ghost"
             size="sm"
+            className="h-11 px-4"
             onClick={() => {
               setStatus("idle");
               setEmail("");
@@ -135,13 +136,14 @@ export function JobAlertSignup() {
             onChange={(e) => setEmail(e.target.value)}
             required
             aria-label="Email address"
+            className="h-11"
           />
 
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             aria-label="Job category"
-            className="flex h-10 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="flex h-11 w-full rounded-lg border border-border bg-input px-3 py-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
             {CATEGORIES.map((cat) => (
               <option key={cat.slug} value={cat.slug}>
@@ -157,13 +159,14 @@ export function JobAlertSignup() {
             onChange={(e) => setKeywords(e.target.value)}
             maxLength={200}
             aria-label="Keywords"
+            className="h-11"
           />
 
-          <div className="flex gap-1 rounded-lg border border-border bg-input p-1">
+          <div className="flex gap-1 rounded-xl border border-border bg-input p-1">
             <button
               type="button"
               onClick={() => setFrequency("weekly")}
-              className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 frequency === "weekly"
                   ? "bg-accent text-accent-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -174,7 +177,7 @@ export function JobAlertSignup() {
             <button
               type="button"
               onClick={() => setFrequency("daily")}
-              className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`flex-1 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                 frequency === "daily"
                   ? "bg-accent text-accent-foreground"
                   : "text-muted-foreground hover:text-foreground"
@@ -184,7 +187,7 @@ export function JobAlertSignup() {
             </button>
           </div>
 
-          <Button type="submit" disabled={status === "loading"}>
+          <Button type="submit" className="h-11" disabled={status === "loading"}>
             {status === "loading" ? (
               <span className="flex items-center gap-2">
                 <svg
@@ -215,7 +218,7 @@ export function JobAlertSignup() {
           </Button>
 
           {status === "error" && (
-            <div className="flex items-center gap-2 rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-400">
+            <div className="flex items-center gap-2 rounded-lg bg-red-500/10 px-3 py-2.5 text-sm text-red-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="14"

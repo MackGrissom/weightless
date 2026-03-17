@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -19,6 +21,8 @@ jobs:
           python-version: "3.11"
           cache: "pip"
           cache-dependency-path: scripts/scraper/requirements.txt
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
       - name: Install dependencies
         run: pip install -r scripts/scraper/requirements.txt

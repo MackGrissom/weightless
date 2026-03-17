@@ -31,77 +31,83 @@ export function JobCard({ job }: JobCardProps) {
 
   return (
     <Link href={`/jobs/${job.slug}`} className="block group">
-      <Card className="p-5 transition-colors hover:border-accent/30 hover:bg-card/80">
-        <div className="flex items-start gap-4">
+      <Card className="p-4 sm:p-5 transition-colors hover:border-accent/30 hover:bg-card/80 active:bg-card/60">
+        <div className="flex items-start gap-3 sm:gap-4">
           <CompanyLogo
             src={job.company?.logo_url ?? null}
             alt={job.company?.name ?? "Company"}
-            size={48}
+            size={40}
           />
 
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
-              <div>
-                <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors truncate">
+              <div className="min-w-0">
+                <h3 className="font-semibold text-foreground group-hover:text-accent transition-colors text-sm sm:text-base leading-tight line-clamp-2 sm:truncate">
                   {job.title}
                 </h3>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground mt-0.5">
                   {job.company?.name}
                 </p>
               </div>
-              {job.is_featured && <Badge variant="accent">Featured</Badge>}
+              <div className="flex items-center gap-2 shrink-0">
+                {job.is_featured && <Badge variant="accent">Featured</Badge>}
+                <span className="text-[11px] text-muted-foreground hidden sm:inline">
+                  {timeAgo(job.date_posted)}
+                </span>
+              </div>
             </div>
 
-            <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
+            <div className="mt-2.5 sm:mt-3 flex flex-wrap items-center gap-2 sm:gap-3 text-xs text-muted-foreground">
               <span className="inline-flex items-center gap-1">
-                <Clock className="h-3.5 w-3.5" />
+                <Clock className="h-3.5 w-3.5 shrink-0" />
                 {jobTypeLabels[job.job_type] || job.job_type}
               </span>
 
               {salary && (
-                <span className="inline-flex items-center gap-1 text-accent">
-                  <DollarSign className="h-3.5 w-3.5" />
+                <span className="inline-flex items-center gap-1 text-accent font-medium">
+                  <DollarSign className="h-3.5 w-3.5 shrink-0" />
                   {salary}
                 </span>
               )}
 
               {job.location_requirements && (
                 <span className="inline-flex items-center gap-1">
-                  <MapPin className="h-3.5 w-3.5" />
-                  {job.location_requirements}
+                  <MapPin className="h-3.5 w-3.5 shrink-0" />
+                  <span className="truncate max-w-[100px] sm:max-w-none">{job.location_requirements}</span>
                 </span>
               )}
 
               {timezone && (
-                <span className="inline-flex items-center gap-1">
-                  <Globe className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline-flex items-center gap-1">
+                  <Globe className="h-3.5 w-3.5 shrink-0" />
                   {timezone}
                 </span>
               )}
 
               {job.visa_sponsorship && (
                 <span className="inline-flex items-center gap-1 text-green-400">
-                  <Plane className="h-3.5 w-3.5" />
-                  Visa Sponsor
+                  <Plane className="h-3.5 w-3.5 shrink-0" />
+                  Visa
                 </span>
               )}
             </div>
 
+            {/* Mobile timestamp */}
+            <p className="mt-2 text-[11px] text-muted-foreground sm:hidden">
+              {timeAgo(job.date_posted)}
+            </p>
+
             {job.tech_stack.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-1.5">
-                {job.tech_stack.slice(0, 5).map((tech) => (
+              <div className="mt-2.5 sm:mt-3 flex flex-wrap gap-1.5">
+                {job.tech_stack.slice(0, 4).map((tech) => (
                   <Tag key={tech}>{tech}</Tag>
                 ))}
-                {job.tech_stack.length > 5 && (
-                  <Tag>+{job.tech_stack.length - 5}</Tag>
+                {job.tech_stack.length > 4 && (
+                  <Tag>+{job.tech_stack.length - 4}</Tag>
                 )}
               </div>
             )}
           </div>
-
-          <span className="shrink-0 text-xs text-muted-foreground">
-            {timeAgo(job.date_posted)}
-          </span>
         </div>
       </Card>
     </Link>

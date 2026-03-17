@@ -4,6 +4,10 @@ import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
+import { CookieConsent } from "@/components/shared/cookie-consent";
+import { GoogleAnalytics } from "@/components/shared/google-analytics";
+import { PwaRegister } from "@/components/shared/pwa-register";
+import { InstallPrompt } from "@/components/shared/install-prompt";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -57,6 +61,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  manifest: "/manifest.json",
+  other: {
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+  },
   robots: {
     index: true,
     follow: true,
@@ -77,14 +87,34 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="theme-color" content="#0a0a0a" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Weightless Blog"
+          href="/blog/feed.xml"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-4 focus:left-4 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-accent-foreground focus:text-sm focus:font-medium"
+        >
+          Skip to main content
+        </a>
         <Providers>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main id="main-content" className="flex-1">{children}</main>
           <Footer />
         </Providers>
+        <CookieConsent />
+        <InstallPrompt />
+        <PwaRegister />
+        <GoogleAnalytics />
         <Analytics />
       </body>
     </html>

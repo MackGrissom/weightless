@@ -1,5 +1,6 @@
 import { Tag } from "@/components/shared/tag";
 import { ApplyGate } from "@/components/jobs/apply-gate";
+import { sanitizeHtml } from "@/lib/sanitize";
 import type { JobWithCompany } from "@/types/database";
 
 interface JobDetailBodyProps {
@@ -31,7 +32,7 @@ export function JobDetailBody({ job }: JobDetailBodyProps) {
         {job.description && job.description !== job.title && job.description.trim().length > 20 ? (
           <div
             className="prose prose-invert prose-sm max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-li:text-muted-foreground prose-strong:text-foreground prose-a:text-accent"
-            dangerouslySetInnerHTML={{ __html: job.description }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(job.description) }}
           />
         ) : (
           <div className="rounded-lg border border-border bg-card p-6 text-center">

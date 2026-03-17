@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { JobSearch } from "@/components/jobs/job-search";
 import { JobFilters } from "@/components/jobs/job-filters";
+import { MobileFilters } from "@/components/jobs/mobile-filters";
 import { JobList } from "@/components/jobs/job-list";
 import { Pagination } from "@/components/shared/pagination";
 import { JobListSkeleton } from "@/components/shared/loading-skeleton";
 import { JobAlertSignup } from "@/components/jobs/job-alert-signup";
 import { searchJobs, getCategories } from "@/lib/supabase/queries";
 import type { JobType, ExperienceLevel } from "@/types/database";
+
+export const revalidate = 300; // ISR: 5 minutes — keeps search results fresh
 
 const categoryMeta: Record<string, { title: string; description: string }> = {
   engineering: {
@@ -144,7 +147,14 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
         <JobSearch />
       </Suspense>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[260px_1fr]">
+      {/* Mobile filters */}
+      <div className="mt-4 lg:hidden">
+        <Suspense>
+          <MobileFilters categories={categories} />
+        </Suspense>
+      </div>
+
+      <div className="mt-4 sm:mt-8 grid gap-8 lg:grid-cols-[260px_1fr]">
         <aside className="hidden lg:block">
           <div className="sticky top-24 space-y-6">
             <div className="rounded-xl border border-border bg-card p-4">

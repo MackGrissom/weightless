@@ -32,7 +32,7 @@ export function Pagination({
   }
 
   const pages: (number | "...")[] = [];
-  if (totalPages <= 7) {
+  if (totalPages <= 5) {
     for (let i = 1; i <= totalPages; i++) pages.push(i);
   } else {
     pages.push(1);
@@ -49,21 +49,22 @@ export function Pagination({
   }
 
   return (
-    <nav className="flex items-center justify-center gap-1" aria-label="Pagination">
+    <nav className="flex items-center justify-center gap-1.5 sm:gap-2" aria-label="Pagination">
       <Link
         href={getPageUrl(currentPage - 1)}
         className={cn(
-          "inline-flex items-center justify-center rounded-lg p-2 text-sm text-muted-foreground hover:bg-muted",
+          "inline-flex h-11 w-11 items-center justify-center rounded-xl text-muted-foreground hover:bg-muted active:bg-muted/80 transition-colors",
           currentPage <= 1 && "pointer-events-none opacity-50"
         )}
         aria-disabled={currentPage <= 1}
+        aria-label="Previous page"
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="h-5 w-5" />
       </Link>
 
       {pages.map((page, i) =>
         page === "..." ? (
-          <span key={`dots-${i}`} className="px-2 text-muted-foreground">
+          <span key={`dots-${i}`} className="px-1 text-muted-foreground">
             ...
           </span>
         ) : (
@@ -71,11 +72,12 @@ export function Pagination({
             key={page}
             href={getPageUrl(page)}
             className={cn(
-              "inline-flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium transition-colors",
+              "inline-flex h-11 w-11 items-center justify-center rounded-xl text-sm font-medium transition-colors active:bg-muted/80",
               page === currentPage
                 ? "bg-accent text-accent-foreground"
                 : "text-muted-foreground hover:bg-muted"
             )}
+            aria-current={page === currentPage ? "page" : undefined}
           >
             {page}
           </Link>
@@ -85,12 +87,13 @@ export function Pagination({
       <Link
         href={getPageUrl(currentPage + 1)}
         className={cn(
-          "inline-flex items-center justify-center rounded-lg p-2 text-sm text-muted-foreground hover:bg-muted",
+          "inline-flex h-11 w-11 items-center justify-center rounded-xl text-muted-foreground hover:bg-muted active:bg-muted/80 transition-colors",
           currentPage >= totalPages && "pointer-events-none opacity-50"
         )}
         aria-disabled={currentPage >= totalPages}
+        aria-label="Next page"
       >
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="h-5 w-5" />
       </Link>
     </nav>
   );

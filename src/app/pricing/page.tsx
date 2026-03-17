@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, Briefcase, Users, MousePointerClick } from "lucide-react";
 import {
   Card,
   CardHeader,
@@ -13,6 +13,9 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { PricingToggle } from "./pricing-toggle";
 import { FaqAccordion, FaqStructuredData } from "@/components/shared/faq-accordion";
+import { getStats } from "@/lib/supabase/queries";
+
+export const revalidate = 3600;
 
 const faqItems = [
   {
@@ -92,7 +95,9 @@ const employerPlans = [
   },
 ];
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const stats = await getStats();
+
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
       {/* Hero */}
@@ -123,6 +128,25 @@ export default function PricingPage() {
             Post your remote job listing and reach thousands of digital nomads
             and location-independent workers.
           </p>
+        </div>
+
+        {/* Social proof for employers */}
+        <div className="mb-12 grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+          <div className="text-center rounded-lg border border-border bg-card p-4">
+            <Briefcase className="h-5 w-5 text-accent mx-auto mb-1" />
+            <p className="text-xl font-bold">{stats.jobCount.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground">Active Jobs</p>
+          </div>
+          <div className="text-center rounded-lg border border-border bg-card p-4">
+            <Users className="h-5 w-5 text-accent mx-auto mb-1" />
+            <p className="text-xl font-bold">{stats.companyCount.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground">Companies</p>
+          </div>
+          <div className="text-center rounded-lg border border-border bg-card p-4">
+            <MousePointerClick className="h-5 w-5 text-accent mx-auto mb-1" />
+            <p className="text-xl font-bold">{stats.applyCount.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground">Applications</p>
+          </div>
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 max-w-4xl mx-auto">

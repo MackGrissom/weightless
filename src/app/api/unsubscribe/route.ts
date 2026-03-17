@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { escapeHtml, isValidEmail } from "@/lib/security";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function GET(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
+  const { success, response } = rateLimit(ip, { limit: 10, windowSeconds: 60 });
+  if (!success) return response!;
+
   const email = req.nextUrl.searchParams.get("email");
 
-  if (!email) {
-    return new NextResponse(unsubPage("Missing email parameter.", false), {
+  if (!email || !isValidEmail(email)) {
+    return new NextResponse(unsubPage("Invalid or missing email address.", false), {
       status: 400,
       headers: { "Content-Type": "text/html" },
     });
@@ -39,6 +45,8 @@ export async function GET(req: NextRequest) {
 
 function unsubPage(detail: string, success: boolean): string {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://weightless.jobs";
+  const safeDetail = escapeHtml(detail);
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,10 +65,10 @@ function unsubPage(detail: string, success: boolean): string {
 <body>
   <div class="container">
     ${success
-      ? `<h1>You've been unsubscribed</h1><p><strong>${detail}</strong> has been removed from our mailing list. You won't receive any more emails from us.</p>`
-      : `<h1>Oops</h1><p>${detail}</p>`
+      ? `<h1>You've been unsubscribed</h1><p><strong>${safeDetail}</strong> has been removed from our mailing list. You won't receive any more emails from us.</p>`
+      : `<h1>Oops</h1><p>${safeDetail}</p>`
     }
-    <a href="${siteUrl}">Back to Weightless</a>
+    <a href="${escapeHtml(siteUrl)}">Back to Weightless</a>
   </div>
 </body>
 </html>`;

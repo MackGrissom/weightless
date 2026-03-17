@@ -1,0 +1,47 @@
+{
+  "name": "Weightless — Remote Jobs for Digital Nomads",
+  "short_name": "Weightless",
+  "description": "Find remote work with salary context, visa info, and timezone filtering. Built for digital nomads.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/icons/icon-192",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Browse Jobs",
+      "short_name": "Jobs",
+      "url": "/jobs",
+      "description": "Search remote job listings"
+    },
+    {
+      "name": "Salary Explorer",
+      "short_name": "Salaries",
+      "url": "/salaries",
+      "description": "Compare remote salaries by role"
+    },
+    {
+      "name": "Where to Live?",
+      "short_name": "Calculator",
+      "url": "/calculator",
+      "description": "Cost-of-living calculator"
+    }
+  ]
+}
