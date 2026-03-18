@@ -19,11 +19,11 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/70 backdrop-blur-xl backdrop-saturate-150 supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex h-14 sm:h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 group">
-          <Feather className="h-6 w-6 text-accent transition-transform group-hover:rotate-12" />
-          <span className="text-lg font-bold tracking-tight">Weightless</span>
+          <Feather className="h-5 w-5 sm:h-6 sm:w-6 text-accent transition-transform group-hover:rotate-12" />
+          <span className="text-base sm:text-lg font-bold tracking-tight">Weightless</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-1">
@@ -53,7 +53,7 @@ export function Navbar() {
           <ThemeToggle />
           <Link
             href="/jobs"
-            className="inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90"
+            className="inline-flex items-center justify-center rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-all hover:bg-accent/90 active:scale-95"
           >
             Find Jobs
           </Link>

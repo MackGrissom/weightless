@@ -26,13 +26,13 @@ export function MobileFilters({ categories }: MobileFiltersProps) {
         <div className="fixed inset-0 z-50 flex items-end justify-center">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/50 backdrop-blur-md animate-sheet-backdrop"
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
 
           {/* Panel */}
-          <div className="relative w-full max-h-[85vh] overflow-y-auto rounded-t-2xl border-t border-border bg-background p-6 pb-8 animate-slide-in safe-area-bottom">
+          <div className="relative w-full max-h-[85dvh] overflow-y-auto rounded-t-3xl border-t border-border bg-background/98 backdrop-blur-2xl p-6 pb-8 animate-sheet-up safe-area-bottom">
             {/* Drag handle */}
             <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border" />
 
@@ -52,7 +52,7 @@ export function MobileFilters({ categories }: MobileFiltersProps) {
             <div className="mt-6 pt-4 border-t border-border">
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-full rounded-xl bg-accent px-4 py-3.5 text-base font-semibold text-accent-foreground active:bg-accent/90 transition-colors"
+                className="w-full rounded-2xl bg-accent px-4 py-4 text-base font-semibold text-accent-foreground active:bg-accent/90 transition-all"
               >
                 Show Results
               </button>

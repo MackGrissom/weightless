@@ -2,13 +2,16 @@
   "name": "Weightless — Remote Jobs for Digital Nomads",
   "short_name": "Weightless",
   "description": "Find remote work with salary context, visa info, and timezone filtering. Built for digital nomads.",
+  "id": "/",
   "start_url": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
-  "orientation": "portrait-primary",
+  "orientation": "natural",
   "scope": "/",
   "categories": ["business", "productivity"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/icons/icon-192",
@@ -23,7 +26,6 @@
       "purpose": "any maskable"
     }
   ],
-  "screenshots": [],
   "shortcuts": [
     {
       "name": "Browse Jobs",
@@ -42,6 +44,12 @@
       "short_name": "Calculator",
       "url": "/calculator",
       "description": "Cost-of-living calculator"
+    },
+    {
+      "name": "Hiring Trends",
+      "short_name": "Trends",
+      "url": "/trends",
+      "description": "Remote hiring market data"
     }
   ]
 }

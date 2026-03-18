@@ -78,8 +78,9 @@ export function ApplyGate({
       </Button>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4">
-          <div className="relative w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl border border-border bg-background p-6 shadow-2xl safe-area-bottom">
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-md animate-sheet-backdrop" onClick={() => setShowModal(false)} aria-hidden="true" />
+          <div className="relative w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl border border-border bg-background/98 backdrop-blur-2xl p-6 shadow-2xl safe-area-bottom animate-sheet-up sm:animate-scale-in">
             {/* Drag handle on mobile */}
             <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border sm:hidden" />
 

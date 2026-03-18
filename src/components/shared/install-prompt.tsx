@@ -43,27 +43,27 @@ export function InstallPrompt() {
   if (!deferredPrompt || dismissed) return null;
 
   return (
-    <div className="fixed bottom-20 left-4 right-4 z-40 sm:left-auto sm:right-6 sm:bottom-6 sm:w-80">
-      <div className="rounded-2xl border border-accent/30 bg-card p-4 shadow-2xl">
+    <div className="fixed bottom-20 left-3 right-3 z-40 sm:left-auto sm:right-6 sm:bottom-6 sm:w-80 animate-slide-up">
+      <div className="rounded-2xl border border-accent/20 bg-card/95 backdrop-blur-xl p-4 shadow-2xl">
         <div className="flex items-start gap-3">
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10">
             <Download className="h-5 w-5 text-accent" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium">Install Weightless</p>
+            <p className="text-sm font-semibold">Install Weightless</p>
             <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">
-              Add to your home screen for faster access and offline browsing.
+              Add to home screen for the full app experience.
             </p>
             <div className="flex gap-2 mt-3">
               <button
                 onClick={handleInstall}
-                className="rounded-xl bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground hover:bg-accent/90 active:bg-accent/80 transition-colors"
+                className="rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground transition-all active:scale-95"
               >
                 Install
               </button>
               <button
                 onClick={handleDismiss}
-                className="rounded-xl border border-border px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground active:bg-muted transition-colors"
+                className="rounded-xl border border-border px-5 py-2.5 text-sm text-muted-foreground transition-all active:scale-95"
               >
                 Not now
               </button>
@@ -71,8 +71,8 @@ export function InstallPrompt() {
           </div>
           <button
             onClick={handleDismiss}
-            className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Dismiss install prompt"
+            className="h-8 w-8 flex items-center justify-center rounded-lg text-muted-foreground active:scale-90 transition-transform"
+            aria-label="Dismiss"
           >
             <X className="h-4 w-4" />
           </button>
